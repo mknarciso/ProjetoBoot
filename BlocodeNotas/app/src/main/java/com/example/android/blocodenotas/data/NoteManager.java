@@ -34,7 +34,7 @@ public class NoteManager {
         ContentValues values = new ContentValues();
         values.put(Constants.COLUMN_TITLE,note.getTitle());
         values.put(Constants.COLUMN_CONTENT, note.getContent());
-        /*values.put(Constants.COLUMN_TAGS,note.getTags().add());*/
+        values.put(Constants.COLUMN_TAGS,note.getTags());
         values.put(Constants.COLUMN_CREATED_TIME,System.currentTimeMillis());
         values.put(Constants.COLUMN_MODIFIED_TIME,System.currentTimeMillis());
         Uri result = mContext.getContentResolver().insert(NoteContentProvider.CONTENT_URI,values);
@@ -83,7 +83,10 @@ public class NoteManager {
         mContext.getContentResolver().delete(NoteContentProvider.CONTENT_URI,Constants.COLUMN_ID + "=" + note.getId(), null);
     }
 
+    public void generate_PDF(){
 
+
+    }
 
 
 }

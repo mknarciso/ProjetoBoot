@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import com.example.android.blocodenotas.R;
 import com.example.android.blocodenotas.activities.NoteEditorActivity;
 import com.example.android.blocodenotas.adapters.NoteListAdapter;
-import com.example.android.blocodenotas.data.NoteManager;
 import com.example.android.blocodenotas.models.Note;
+import com.example.android.blocodenotas.utility.SampleData;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.List;
@@ -104,7 +104,8 @@ public class NoteListFragment extends Fragment {
             }
         });
 
-        mNotes = NoteManager.newInstance(getActivity()).getAllNotes();
+        //Mudar aqui
+        mNotes = SampleData.getSampleNotes();
         mAdapter = new NoteListAdapter(mNotes, getActivity());
         mRecyclerView.setAdapter(mAdapter);
     }

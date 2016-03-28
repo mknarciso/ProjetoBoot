@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.android.blocodenotas.R;
 import com.example.android.blocodenotas.data.DatabaseHelper;
@@ -46,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.title_home).withIcon(FontAwesome.Icon.faw_home).withIdentifier(1),
                         new PrimaryDrawerItem().withName(R.string.title_editor).withIcon(FontAwesome.Icon.faw_edit).withIdentifier(2),
-                        new PrimaryDrawerItem().withName(R.string.title_settings).withIcon(FontAwesome.Icon.faw_list).withIdentifier(3)
+                        new PrimaryDrawerItem().withName(R.string.title_settings).withIcon(FontAwesome.Icon.faw_list).withIdentifier(3),
+                        new PrimaryDrawerItem().
 
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -67,11 +67,14 @@ public class MainActivity extends AppCompatActivity {
                                 case 2:
                                     //go the editor screen
                                     startActivity(new Intent(MainActivity.this, NoteEditorActivity.class));
+                                    break;
                                 case 3:
                                     //go to settings screen, yet to be added
                                     //this will be your home work
-                                    Toast.makeText(MainActivity.this, "Settings Clicked", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                                    //Toast.makeText(MainActivity.this, "Settings Clicked", Toast.LENGTH_SHORT).show();
                                     break;
+
                             }
                         }
                         return false;

@@ -111,7 +111,7 @@ public class NotePlainEditorFragment extends Fragment {
                 if(mCurrentNote != null){
                     promptForDelete();
                 }else{
-                    makeToast("Não é possível deletar nota que não foi salva");
+                    makeToast("Não é possível deletar uma nota que não foi salva");
                 }
                 break;
             case R.id.action_save:
@@ -125,6 +125,7 @@ public class NotePlainEditorFragment extends Fragment {
     }
 
     private boolean saveNote(){
+
         String title = mTitleEditText.getText().toString();
         if (TextUtils.isEmpty(title)){
             mTitleEditText.setError("Title is required");
@@ -137,7 +138,11 @@ public class NotePlainEditorFragment extends Fragment {
             return false;
         }
 
-        String tags = mContentEditText.getText().toString();
+        String tags = mTagsEditText.getText().toString();
+        if (TextUtils.isEmpty(tags)){
+            mTagsEditText.setError("Tags are required");
+            return false;
+        }
 
         if(mCurrentNote != null){
             mCurrentNote.setContent(content);

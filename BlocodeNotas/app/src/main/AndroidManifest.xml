@@ -17,6 +17,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.blocodenotas.activities.MainActivity" />
+        </activity>
+        <activity
             android:name=".activities.NoteEditorActivity"
             android:label="@string/title_activity_note_editor"
             android:parentActivityName=".activities.MainActivity" >
