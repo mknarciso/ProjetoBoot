@@ -31,10 +31,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_NOTE = "create table "
             + Constants.NOTES_TABLE
             + "("
-            + Constants.COLUMN_ID + "integer primary key autoincrement,"
-            + Constants.COLUMN_TITLE + "text not null,"
-            + Constants.COLUMN_CONTENT+ "text not null,"
-            + Constants.COLUMN_TAGS + "text not null,"
-            + Constants.COLUMN_MODIFIED_TIME + "integer not null,"
-            + Constants.COLUMN_CREATED_TIME + "integer not null" + ")";
+            + Constants.COLUMN_ID + " integer primary key autoincrement, "
+            + Constants.COLUMN_TITLE + " text not null, "
+            + Constants.COLUMN_CONTENT+ " text not null, "
+            + Constants.COLUMN_TAGS + "text not null, "
+            + Constants.COLUMN_MODIFIED_TIME + " integer not null, "
+            + Constants.COLUMN_CREATED_TIME + " integer not null " + ")";
 }

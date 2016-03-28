@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Bloco de Notas</string>
     <string name="action_settings">Settings</string>
+    <string name="enter_title">Inserir Título</string>
+    <string name="enter_content">Inserir Conteúdo</string>
+    <string name="title_home">Principal</string>
+    <string name="title_editor">Editor</string>
+    <string name="title_settings">Configurações</string>
+    <string name="title_activity_note_editor">Editor de notas</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
+
