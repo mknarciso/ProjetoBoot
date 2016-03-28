@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import com.example.android.blocodenotas.R;
 import com.example.android.blocodenotas.activities.NoteEditorActivity;
 import com.example.android.blocodenotas.adapters.NoteListAdapter;
+import com.example.android.blocodenotas.data.NoteManager;
 import com.example.android.blocodenotas.models.Note;
-import com.example.android.blocodenotas.utility.SampleData;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.List;
@@ -84,6 +84,8 @@ public class NoteListFragment extends Fragment {
                 if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
                     int position = recyclerView.getChildLayoutPosition(child);
                     Note selectedNote = mNotes.get(position);
+                    Intent editorIntent = new Intent(getActivity(),NoteEditorActivity.class);
+                    editorIntent.putExtra("id",selectedNote.getId());
 
                     //now we have the selected note
 
@@ -102,7 +104,7 @@ public class NoteListFragment extends Fragment {
             }
         });
 
-        mNotes = SampleData.getSampleNotes();
+        mNotes = NoteManager.newInstance(getActivity()).getAllNotes();
         mAdapter = new NoteListAdapter(mNotes, getActivity());
         mRecyclerView.setAdapter(mAdapter);
     }

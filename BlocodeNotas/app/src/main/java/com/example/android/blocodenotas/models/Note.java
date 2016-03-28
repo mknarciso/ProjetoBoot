@@ -1,10 +1,13 @@
 package com.example.android.blocodenotas.models;
 
+import android.database.Cursor;
+
+import com.example.android.blocodenotas.utility.Constants;
+
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 
@@ -15,11 +18,11 @@ public class Note {
     private Long id;
     private String title;
     private String content;
-    private List<String> tags = new ArrayList<String>();
+    private String tags;
     private Calendar dateCreated;
     private Calendar dateModified;
 
-    public String getReadableModifiedDate(){
+    public String getReadableModifiedDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yy - hh:mm ", Locale.getDefault());
         sdf.setTimeZone(getDataModified().getTimeZone());
         Date modifiedDate = getDataModified().getTime();
@@ -43,19 +46,15 @@ public class Note {
         this.title = title;
     }
 
-    public void setTags(List <String> tagArray){
-        for(int i=0; i<tagArray.size();i++)
-            this.tags.add(tagArray.get(i));
+    public void setTags(String tag) {
+        this.tags=tag;
     }
 
-    public String getTagsAsString(){
-        String all_tags = new String();
-        for (int i = 0 ; i < tags.size(); i++)
-            all_tags = all_tags + " #" + tags.get(i);
-        return all_tags;
+    public String getTagsAsString() {
+        return tags;
     }
 
-    public List<String> getTags(){
+    public String getTags() {
         return tags;
     }
 
@@ -83,5 +82,23 @@ public class Note {
         this.dateModified = dataModified;
     }
 
-}
+    public static Note getNotefromCursor(Cursor cursor) {
+        Note note = new Note();
+        note.setId(cursor.getLong(cursor.getColumnIndex(Constants.COLUMN_ID)));
+        note.setTitle(cursor.getString(cursor.getColumnIndex(Constants.COLUMN_TITLE)));
+        note.setContent(cursor.getString(cursor.getColumnIndex(Constants.COLUMN_CONTENT)));
 
+        //get Calendar instance
+        Calendar calendar = GregorianCalendar.getInstance();
+
+        //set the calendar time to date created
+        calendar.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(Constants.COLUMN_CREATED_TIME)));
+        note.setDateCreated(calendar);
+
+        //set the calendar time to date modified
+        calendar.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(Constants.COLUMN_MODIFIED_TIME)));
+        note.setDataModified(calendar);
+        return note;
+    }
+
+}

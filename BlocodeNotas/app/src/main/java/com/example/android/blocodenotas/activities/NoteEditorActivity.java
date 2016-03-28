@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.android.blocodenotas.R;
+import com.example.android.blocodenotas.fragments.NotePlainEditorFragment;
 
 public class NoteEditorActivity extends AppCompatActivity {
 
@@ -19,10 +20,20 @@ public class NoteEditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_editor);
 
-
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //remove this line in the MainActivity.java
+
+        if (savedInstanceState == null) {
+            Bundle args = getIntent().getExtras();
+            if (args != null && args.containsKey("id")) {
+                long id = args.getLong("id", 0);
+                if (id > 0) {
+                    openFragment(NotePlainEditorFragment.newInstance(id), "Editor");
+                }
+            }
+            openFragment(NotePlainEditorFragment.newInstance(0), "Editor");
+        }
     }
 
     @Override
