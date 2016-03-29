@@ -41,6 +41,7 @@ public class NoteContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String [] selectionArgs, String sortOrder ){
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        queryBuilder.setTables(Constants.NOTES_TABLE);
         checkColumns(projection);
 
         int type = URI_MATCHER.match(uri);
@@ -48,7 +49,7 @@ public class NoteContentProvider extends ContentProvider {
             case NOTE:
                 break;
             case NOTES:
-                queryBuilder.appendWhere(Constants.COLUMN_ID + "=" + uri.getLastPathSegment());
+                queryBuilder.appendWhere(Constants.COLUMN_ID + "=" + projection[0]);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
