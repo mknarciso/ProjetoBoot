@@ -12,7 +12,7 @@ import com.example.android.blocodenotas.utility.Constants;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "blocodenotas.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -25,7 +25,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion,int newVersion ) {
-        db.execSQL(CREATE_TABLE_NOTE);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.NOTES_TABLE);
+        onCreate(db);
     }
 
     private static final String CREATE_TABLE_NOTE = "create table "
@@ -33,8 +34,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "("
             + Constants.COLUMN_ID + " integer primary key autoincrement, "
             + Constants.COLUMN_TITLE + " text not null, "
-            + Constants.COLUMN_CONTENT+ " text not null, "
-            + Constants.COLUMN_TAGS + "text not null, "
+            + Constants.COLUMN_CONTENT + " text not null, "
+            + Constants.COLUMN_TAGS + " text not null, "
             + Constants.COLUMN_MODIFIED_TIME + " integer not null, "
             + Constants.COLUMN_CREATED_TIME + " integer not null " + ")";
 }

@@ -42,7 +42,7 @@ public class NotePlainEditorFragment extends Fragment {
     private void populateFields(){
         mTitleEditText.setText(mCurrentNote.getTitle());
         mContentEditText.setText(mCurrentNote.getContent());
-        mTagsEditText.setText(mCurrentNote.getTagsAsString());
+        mTagsEditText.setText(mCurrentNote.getTags());
     }
 
     public void promptForDelete(){
@@ -54,7 +54,7 @@ public class NotePlainEditorFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 NoteManager.newInstance(getActivity()).delete(mCurrentNote);
-                makeToast(titleOfNoteTobeDeleted + "deletada");
+                makeToast(titleOfNoteTobeDeleted + " deletada");
                 startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
@@ -177,8 +177,7 @@ public class NotePlainEditorFragment extends Fragment {
         mTitleEditText = (EditText)mRootView.findViewById(R.id.edit_text_title);
         mContentEditText = (EditText)mRootView.findViewById(R.id.edit_text_note);
         mTagsEditText = (EditText)mRootView.findViewById(R.id.edit_text_tags);
-
-        return inflater.inflate(R.layout.fragment_note_plain_editor, container, false);
+        return mRootView;
     }
 
 

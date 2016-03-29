@@ -7,7 +7,7 @@ public class Constants {
     public static final String NOTES_TABLE = "notes";
 
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_NAME = "name";
+    //public static final String COLUMN_NAME = "name";
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_CONTENT = "content";
     public static final String COLUMN_TAGS = "tags";
@@ -19,6 +19,7 @@ public class Constants {
             Constants.COLUMN_TITLE,
             Constants.COLUMN_CONTENT,
             Constants.COLUMN_TAGS,
+            Constants.COLUMN_MODIFIED_TIME,
             Constants.COLUMN_CREATED_TIME
     };
 

@@ -15,6 +15,7 @@ public class NoteEditorActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +31,12 @@ public class NoteEditorActivity extends AppCompatActivity {
                 long id = args.getLong("id", 0);
                 if (id > 0) {
                     openFragment(NotePlainEditorFragment.newInstance(id), "Editor");
+
                 }
             }
-            openFragment(NotePlainEditorFragment.newInstance(0), "Editor");
+            else openFragment(NotePlainEditorFragment.newInstance(0), "Editor");
         }
+
     }
 
     @Override
@@ -55,6 +58,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             return true;
         }
 
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -66,5 +70,11 @@ public class NoteEditorActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
         getSupportActionBar().setTitle(title);
+    }
+    @Override
+    public void onBackPressed()
+    {
+        this.finish();
+
     }
 }
