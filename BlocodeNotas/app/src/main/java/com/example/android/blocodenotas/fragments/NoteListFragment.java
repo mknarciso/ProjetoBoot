@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.android.blocodenotas.R;
 import com.example.android.blocodenotas.activities.NoteEditorActivity;
@@ -33,6 +34,10 @@ public class NoteListFragment extends Fragment {
     private NoteListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+
+    private void makeToast(String mensagem){
+        Toast.makeText(getActivity(), mensagem, Toast.LENGTH_SHORT).show();
+    }
 
     public NoteListFragment() {
         // Required empty public constructor
@@ -86,6 +91,9 @@ public class NoteListFragment extends Fragment {
                     Note selectedNote = mNotes.get(position);
                     Intent editorIntent = new Intent(getActivity(),NoteEditorActivity.class);
                     editorIntent.putExtra("id",selectedNote.getId());
+                    startActivity(editorIntent);
+
+
 
                     //now we have the selected note
 
