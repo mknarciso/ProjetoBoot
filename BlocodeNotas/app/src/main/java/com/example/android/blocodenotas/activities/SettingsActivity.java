@@ -16,6 +16,8 @@ public class SettingsActivity extends AppCompatActivity{
 
     private Toolbar mToolbar;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,12 @@ public class SettingsActivity extends AppCompatActivity{
                 .commit();
         getSupportActionBar().setTitle(title);
     }
+    @Override
+    public void onBackPressed()
+    {
+        finish();
 
+    }
 
 
 
