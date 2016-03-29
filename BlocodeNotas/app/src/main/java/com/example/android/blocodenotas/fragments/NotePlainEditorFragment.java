@@ -42,7 +42,7 @@ public class NotePlainEditorFragment extends Fragment {
     private void populateFields(){
         mTitleEditText.setText(mCurrentNote.getTitle());
         mContentEditText.setText(mCurrentNote.getContent());
-        mTagsEditText.setText(mCurrentNote.getTagsAsString());
+        mTagsEditText.setText(mCurrentNote.getTags());
     }
 
     public void promptForDelete(){
@@ -127,6 +127,7 @@ public class NotePlainEditorFragment extends Fragment {
     private boolean saveNote(){
 
         String title = mTitleEditText.getText().toString();
+        makeToast(title);
         if (TextUtils.isEmpty(title)){
             mTitleEditText.setError("Title is required");
             return false;
@@ -141,6 +142,7 @@ public class NotePlainEditorFragment extends Fragment {
         String tags = mTagsEditText.getText().toString();
         if (TextUtils.isEmpty(tags)){
             mTagsEditText.setError("Tags are required");
+            makeToast("Tags necessarias");
             return false;
         }
 
@@ -177,8 +179,7 @@ public class NotePlainEditorFragment extends Fragment {
         mTitleEditText = (EditText)mRootView.findViewById(R.id.edit_text_title);
         mContentEditText = (EditText)mRootView.findViewById(R.id.edit_text_note);
         mTagsEditText = (EditText)mRootView.findViewById(R.id.edit_text_tags);
-
-        return inflater.inflate(R.layout.fragment_note_plain_editor, container, false);
+        return mRootView;
     }
 
 

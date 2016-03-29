@@ -49,10 +49,11 @@ public class NoteContentProvider extends ContentProvider {
                 break;
             case NOTES:
                 queryBuilder.appendWhere(Constants.COLUMN_ID + "=" + uri.getLastPathSegment());
+                break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor =  queryBuilder.query(db,projection,selection,selectionArgs,null, null, sortOrder);
         cursor.setNotificationUri(getContext().getContentResolver(),uri);
         return cursor;
