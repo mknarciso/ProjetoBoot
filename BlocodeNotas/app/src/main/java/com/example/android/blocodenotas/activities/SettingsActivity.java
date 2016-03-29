@@ -48,7 +48,12 @@ public class SettingsActivity extends AppCompatActivity{
                 .commit();
         getSupportActionBar().setTitle(title);
     }
+    @Override
+    public void onBackPressed()
+    {
+        finish();
 
+    }
 
 
 

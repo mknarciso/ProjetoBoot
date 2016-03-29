@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private com.mikepenz.materialdrawer.Drawer result = null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,4 +142,10 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
         getSupportActionBar().setTitle(title);
     }
+    @Override
+    public void onBackPressed()
+    {
+        moveTaskToBack(true);
+    }
+
 }

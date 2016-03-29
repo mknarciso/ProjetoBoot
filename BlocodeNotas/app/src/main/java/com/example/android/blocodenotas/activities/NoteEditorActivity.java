@@ -71,4 +71,10 @@ public class NoteEditorActivity extends AppCompatActivity {
                 .commit();
         getSupportActionBar().setTitle(title);
     }
+    @Override
+    public void onBackPressed()
+    {
+        this.finish();
+
+    }
 }
