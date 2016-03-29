@@ -23,7 +23,7 @@ public class NoteContentProvider extends ContentProvider {
     private static final String BASE_PATH_NOTE = "notes";
     private static final int NOTE = 100;
     private static final int NOTES = 101;
-    private static final String AUTHORITY = "com.example.blocodenotas.data.provider";
+    private static final String AUTHORITY = "com.example.android.blocodenotas.data.provider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY +"/" + BASE_PATH_NOTE);
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);

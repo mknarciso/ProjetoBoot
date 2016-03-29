@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.title_home).withIcon(FontAwesome.Icon.faw_home).withIdentifier(1),
                         new PrimaryDrawerItem().withName(R.string.title_editor).withIcon(FontAwesome.Icon.faw_edit).withIdentifier(2),
-                        new PrimaryDrawerItem().withName(R.string.title_settings).withIcon(FontAwesome.Icon.faw_list).withIdentifier(3),
-                        new PrimaryDrawerItem().
+                        new PrimaryDrawerItem().withName(R.string.title_settings).withIcon(FontAwesome.Icon.faw_list).withIdentifier(3)
+                       // new PrimaryDrawerItem().withName(R.string.title_activity_search).withIcon(FontAwesome.Icon.faw_search).withIdentifier(4)
 
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                                     //Toast.makeText(MainActivity.this, "Settings Clicked", Toast.LENGTH_SHORT).show();
                                     break;
+                                case 4:
+                                    //go to the search screen
 
                             }
                         }
