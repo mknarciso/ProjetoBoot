@@ -25,7 +25,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion,int newVersion ) {
-        db.execSQL(CREATE_TABLE_NOTE);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.NOTES_TABLE);
+        onCreate(db);
     }
 
     private static final String CREATE_TABLE_NOTE = "create table "
