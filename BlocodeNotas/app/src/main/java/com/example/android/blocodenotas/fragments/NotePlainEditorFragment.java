@@ -54,7 +54,7 @@ public class NotePlainEditorFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 NoteManager.newInstance(getActivity()).delete(mCurrentNote);
-                makeToast(titleOfNoteTobeDeleted + "deletada");
+                makeToast(titleOfNoteTobeDeleted + " deletada");
                 startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
@@ -127,7 +127,6 @@ public class NotePlainEditorFragment extends Fragment {
     private boolean saveNote(){
 
         String title = mTitleEditText.getText().toString();
-        makeToast(title);
         if (TextUtils.isEmpty(title)){
             mTitleEditText.setError("Title is required");
             return false;
@@ -142,7 +141,6 @@ public class NotePlainEditorFragment extends Fragment {
         String tags = mTagsEditText.getText().toString();
         if (TextUtils.isEmpty(tags)){
             mTagsEditText.setError("Tags are required");
-            makeToast("Tags necessarias");
             return false;
         }
 
