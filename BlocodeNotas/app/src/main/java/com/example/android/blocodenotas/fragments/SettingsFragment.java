@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioGroup;
 
 import com.example.android.blocodenotas.R;
 
@@ -20,6 +21,11 @@ import com.example.android.blocodenotas.R;
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private View mRootView;
+    Button buttonExport;
+    Button buttonOrder;
+    RadioGroup ordenationTypes;
+    int selected_id;
+
 
     public static SettingsFragment newInstance(long id) {
         SettingsFragment fragment = new SettingsFragment();
@@ -45,8 +51,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mRootView = inflater.inflate(R.layout.fragment_settings, container, false);
-        Button buttonExport = (Button) mRootView.findViewById(R.id.export_button);
+        buttonExport = (Button) mRootView.findViewById(R.id.export_button);
+        buttonOrder = (Button) mRootView.findViewById(R.id.order_button);
         buttonExport.setOnClickListener(this);
+        buttonOrder.setOnClickListener(this);
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
@@ -55,6 +63,18 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             case(R.id.export_button):
                 //Inserir método de exportação
                 break;
+            case(R.id.order_button):
+                ordenationTypes = (RadioGroup)mRootView.findViewById(R.id.order_type);
+                selected_id = ordenationTypes.getCheckedRadioButtonId();
+                if(selected_id == R.id.button_order_date_created) {
+                    //Inserir método de ordenação por data criada
+                }
+                else if(selected_id == R.id.button_order_date_modified) {
+                    //Inserir método de ordenação por data modificada
+                }
+                else if(selected_id == R.id.button_order_title) {
+                    //Inserir método de ordenação por nome
+                }
         }
     }
 }

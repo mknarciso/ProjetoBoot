@@ -3,15 +3,67 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-   <Button
-       android:id="@+id/export_button"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:padding="@dimen/margin_padding_tiny"
-       android:layout_margin="@dimen/margin_padding_xxnormal"
-       android:gravity="center"
-       android:text="@string/export"
-       android:background="@color/primary"
-       android:textColor="@color/icons" />
+    <Button
+        android:id="@+id/export_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_padding_tiny"
+        android:layout_margin="@dimen/margin_padding_xxnormal"
+        android:gravity="center"
+        android:text="@string/export"
+        android:background="@color/primary"
+        android:textColor="@color/icons" />
+
+
+    <RadioGroup
+        android:id="@+id/order_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_padding_tiny"
+        android:layout_margin="@dimen/margin_padding_xxnormal"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/order"
+            android:padding="@dimen/margin_padding_tiny"
+            android:layout_marginTop= "@dimen/margin_padding_xxnormal"
+            android:layout_marginRight= "@dimen/margin_padding_xxnormal"
+            android:textSize="@dimen/text_size_large"
+            android:gravity="start"/>
+
+        <RadioButton
+            android:id="@+id/button_order_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_order_name"
+            android:checked="false" />
+
+        <RadioButton
+            android:id="@+id/button_order_date_created"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_order_date_created"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/button_order_date_modified"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_order_date_modified"
+            />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/order_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_padding_tiny"
+        android:layout_margin="@dimen/margin_padding_xxnormal"
+        android:gravity="center"
+        android:text="@string/order"
+        android:background="@color/primary"
+        android:textColor="@color/icons" />
 
 </LinearLayout>
