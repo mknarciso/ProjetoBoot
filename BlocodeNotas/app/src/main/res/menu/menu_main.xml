@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.MainActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id = "@+id/order_title"
+        android:orderInCategory="100"
+        android:title = "Ordenar por título"
+        />
+
+    <item
+        android:id = "@+id/order_creation_date"
+        android:orderInCategory="100"
+        android:title = "Ordenar por data de criação"
+        />
+    <item
+        android:id = "@+id/order_modification_date"
+        android:orderInCategory="100"
+        android:title = "Ordenar por data de modificação"
+        />
+
+</menu>

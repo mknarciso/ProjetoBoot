@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Bloco de Notas</string>
+    <string name="action_settings">Settings</string>
+    <string name="enter_title">Inserir Título</string>
+    <string name="enter_tags">Inserir Tags</string>
+    <string name="action_save">Salvar</string>
+    <string name="action_delete">Deletar</string>
+    <string name="export">Exportar</string>
+    <string name="hint">Inserir busca</string>
+    <string name="enter_content">Inserir Conteúdo</string>
+    <string name="title_home">Principal</string>
+    <string name="title_search">Busca</string>
+    <string name="title_editor">Editor</string>
+    <string name="title_settings">Configurações</string>
+    <string name="title_activity_note_editor">Editor de notas</string>
+    <string name="title_activity_settings">Configurações</string>
+    <string name="title_activity_search">Configurações</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
+
