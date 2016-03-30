@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.example.android.blocodenotas.utility.Constants;
 import com.example.android.blocodenotas.utility.Constag;
 
 import java.util.Arrays;
@@ -20,16 +19,16 @@ import java.util.HashSet;
 public class TagContentProvider extends ContentProvider  {
         private DatabaseHelper dbHelper;
 
-        private static final String BASE_PATH_NOTE = "tags";
-        private static final int NOTE = 100;
-        private static final int NOTES = 101;
+        private static final String BASE_PATH_TAG = "tags";
+        private static final int TAG = 200;
+        private static final int TAGS = 201;
         private static final String AUTHORITY = "com.example.android.blocodenotas.data.provider";
-        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY +"/" + BASE_PATH_NOTE);
+        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY +"/" + BASE_PATH_TAG);
 
         private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
         static {
-            URI_MATCHER.addURI(AUTHORITY, BASE_PATH_NOTE,NOTES);
-            URI_MATCHER.addURI(AUTHORITY,BASE_PATH_NOTE + "/#",NOTE );
+            URI_MATCHER.addURI(AUTHORITY, BASE_PATH_TAG,TAGS);
+            URI_MATCHER.addURI(AUTHORITY,BASE_PATH_TAG + "/#",TAG );
         }
 
         @Override
@@ -46,10 +45,10 @@ public class TagContentProvider extends ContentProvider  {
 
             int type = URI_MATCHER.match(uri);
             switch (type){
-                case NOTE:
+                case TAG:
                     break;
-                case NOTES:
-                    queryBuilder.appendWhere(Constants.COLUMN_ID + "=" + projection[0]);
+                case TAGS:
+                    queryBuilder.appendWhere(Constag.COLUMN_ID + "=" + projection[0]);
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -71,14 +70,14 @@ public class TagContentProvider extends ContentProvider  {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             Long id;
             switch (type){
-                case NOTES:
-                    id = db.insert(Constants.NOTES_TABLE, null, values);
+                case TAGS:
+                    id = db.insert(Constag.TAG_TABLE, null, values);
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown URI: " + uri);
             }
             getContext().getContentResolver().notifyChange(uri, null);
-            return Uri.parse(BASE_PATH_NOTE + "/" + id);
+            return Uri.parse(BASE_PATH_TAG + "/" + id);
         }
 
         @Override
@@ -87,16 +86,16 @@ public class TagContentProvider extends ContentProvider  {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             int affectedRows;
             switch (type) {
-                case NOTES:
-                    affectedRows = db.delete(Constants.NOTES_TABLE, selection, selectionArgs);
+                case TAGS:
+                    affectedRows = db.delete(Constag.TAG_TABLE, selection, selectionArgs);
                     break;
 
-                case NOTE:
+                case TAG:
                     String id = uri.getLastPathSegment();
                     if (TextUtils.isEmpty(selection)) {
-                        affectedRows = db.delete(Constants.NOTES_TABLE, Constants.COLUMN_ID + "=" + id, null);
+                        affectedRows = db.delete(Constag.TAG_TABLE, Constag.COLUMN_ID + "=" + id, null);
                     } else {
-                        affectedRows = db.delete(Constants.NOTES_TABLE, Constants.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
+                        affectedRows = db.delete(Constag.TAG_TABLE, Constag.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
                     }
                     break;
 
@@ -113,16 +112,16 @@ public class TagContentProvider extends ContentProvider  {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             int affectedRows;
             switch (type) {
-                case NOTES:
-                    affectedRows = db.update(Constants.NOTES_TABLE, values, selection, selectionArgs);
+                case TAGS:
+                    affectedRows = db.update(Constag.TAG_TABLE, values, selection, selectionArgs);
                     break;
 
-                case NOTE:
+                case TAG:
                     String id = uri.getLastPathSegment();
                     if (TextUtils.isEmpty(selection)) {
-                        affectedRows = db.update(Constants.NOTES_TABLE, values, Constants.COLUMN_ID + "=" + id, null);
+                        affectedRows = db.update(Constag.TAG_TABLE, values, Constag.COLUMN_ID + "=" + id, null);
                     } else {
-                        affectedRows = db.update(Constants.NOTES_TABLE, values, Constants.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
+                        affectedRows = db.update(Constag.TAG_TABLE, values, Constag.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
                     }
                     break;
 
@@ -136,7 +135,7 @@ public class TagContentProvider extends ContentProvider  {
         private void checkColumns(String[] projection) {
             if (projection != null) {
                 HashSet<String> request = new HashSet<String>(Arrays.asList(projection));
-                HashSet<String> available = new HashSet<String>(Arrays.asList(Constants.COLUMNS));
+                HashSet<String> available = new HashSet<String>(Arrays.asList(Constag.COLUMNS));
                 if (!available.containsAll(request)) {
                     throw new IllegalArgumentException("Unknown columns in projection");
                 }

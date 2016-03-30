@@ -42,6 +42,7 @@ public class NotePlainEditorFragment extends Fragment {
     private void populateFields(){
         mTitleEditText.setText(mCurrentNote.getTitle());
         mContentEditText.setText(mCurrentNote.getContent());
+        ///zzz
         mTagsEditText.setText(mCurrentNote.getTags());
     }
 
@@ -147,6 +148,7 @@ public class NotePlainEditorFragment extends Fragment {
         if(mCurrentNote != null){
             mCurrentNote.setContent(content);
             mCurrentNote.setTitle(title);
+            //zzz
             mCurrentNote.setTags(tags);
             NoteManager.newInstance(getActivity()).update(mCurrentNote);
         }else {
