@@ -42,9 +42,16 @@ public class NoteManager {
         return id;
     }
 
-    public List<Note> getAllNotes(){
+    public List<Note> getAllNotes(int typeSort){
         List<Note> notes = new ArrayList<Note>();
-        Cursor cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI, Constants.COLUMNS, null, null, null);
+        Cursor cursor;
+        if (typeSort == 1) {
+            cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI, Constants.COLUMNS, null, null, Constants.COLUMN_CREATED_TIME);
+        }
+        else if (typeSort == 2){
+            cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI, Constants.COLUMNS, null, null, Constants.COLUMN_MODIFIED_TIME);
+        }
+        else{ cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI, Constants.COLUMNS, null, null, Constants.COLUMN_TITLE);}
         if(cursor != null){
             cursor.moveToFirst();
             while(!cursor.isAfterLast()){
@@ -73,7 +80,7 @@ public class NoteManager {
         values.put(Constants.COLUMN_TITLE,note.getTitle());
         values.put(Constants.COLUMN_CONTENT, note.getContent());
         values.put(Constants.COLUMN_TAGS,note.getTags());
-        values.put(Constants.COLUMN_CREATED_TIME,System.currentTimeMillis());
+        values.put(Constants.COLUMN_CREATED_TIME,note.getDateCreated().getTimeInMillis());
         values.put(Constants.COLUMN_MODIFIED_TIME,System.currentTimeMillis());
         mContext.getContentResolver().update(NoteContentProvider.CONTENT_URI,
                 values, Constants.COLUMN_ID + "=" + note.getId(), null);
