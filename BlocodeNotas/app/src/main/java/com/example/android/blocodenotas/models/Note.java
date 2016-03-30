@@ -46,7 +46,11 @@ public class Note {
         this.title = title;
     }
 
+
+
+
     public void setTags(String tag) {
+        Long noteID = this.id;
         this.tags=tag;
     }
 

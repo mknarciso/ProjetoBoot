@@ -20,7 +20,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db){
+        db.execSQL(CREATE_TABLE_TAG);
         db.execSQL(CREATE_TABLE_NOTE);
+        db.execSQL(CREATE_TABLE_NOTE_TAG);
     }
 
     @Override
@@ -28,6 +30,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Constants.NOTES_TABLE);
         onCreate(db);
     }
+
+    private static final String CREATE_TABLE_TAG = "create table tags("
+            + "_id" + " integer primary key autoincrement, "
+            + "name" + " text not null )";
+
+    private static final String CREATE_TABLE_NOTE_TAG = "create table note_tags("
+            + "_id" + " integer primary key autoincrement, "
+            + "tag_id" + " text not null,"
+            + "note_id" + " integer not null, "
+            + " )";
 
     private static final String CREATE_TABLE_NOTE = "create table "
             + Constants.NOTES_TABLE
