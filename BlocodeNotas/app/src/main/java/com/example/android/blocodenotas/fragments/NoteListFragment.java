@@ -20,6 +20,8 @@ import com.example.android.blocodenotas.data.NoteManager;
 import com.example.android.blocodenotas.models.Note;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -74,7 +76,7 @@ public class NoteListFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         final GestureDetector mGestureDetector =
-                new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener(){
+                new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
                     @Override
                     public boolean onSingleTapUp(MotionEvent e) {
                         return true;
@@ -89,10 +91,9 @@ public class NoteListFragment extends Fragment {
                 if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
                     int position = recyclerView.getChildLayoutPosition(child);
                     Note selectedNote = mNotes.get(position);
-                    Intent editorIntent = new Intent(getActivity(),NoteEditorActivity.class);
-                    editorIntent.putExtra("id",selectedNote.getId());
+                    Intent editorIntent = new Intent(getActivity(), NoteEditorActivity.class);
+                    editorIntent.putExtra("id", selectedNote.getId());
                     startActivity(editorIntent);
-
 
 
                     //now we have the selected note
@@ -112,11 +113,40 @@ public class NoteListFragment extends Fragment {
             }
         });
 
-        //Mudar aqui
         mNotes = NoteManager.newInstance(getActivity()).getAllNotes();
         mAdapter = new NoteListAdapter(mNotes, getActivity());
         mRecyclerView.setAdapter(mAdapter);
     }
 
 
-   }
+    public void sortByTitle (){
+        mNotes = NoteManager.newInstance(getActivity()).getAllNotes();
+        Collections.sort(mNotes, new Comparator<Note>() {
+            @Override
+            public int compare(Note lhs, Note rhs) {
+                return lhs.getTitle().compareTo(rhs.getTitle());
+            }
+        });
+        mAdapter = new NoteListAdapter(mNotes,getActivity());
+        mRecyclerView.setAdapter(mAdapter);
+
+    }
+    public void sortByCreationTime (List<Note> allNotes) {
+        Collections.sort(mNotes, new Comparator<Note>() {
+            @Override
+            public int compare(Note lhs, Note rhs) {
+                return lhs.getDateCreated().compareTo(rhs.getDateCreated());
+            }
+        });
+    }
+    public void sortByModificationTime (List<Note> allNotes) {
+        Collections.sort(mNotes, new Comparator<Note>() {
+            @Override
+            public int compare(Note lhs, Note rhs) {
+                return lhs.getDataModified().compareTo(rhs.getDataModified());
+            }
+        });
+    }
+
+
+}
