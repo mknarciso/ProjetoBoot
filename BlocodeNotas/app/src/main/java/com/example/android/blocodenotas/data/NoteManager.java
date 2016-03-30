@@ -37,14 +37,14 @@ public class NoteManager {
         //values.put(Constants.COLUMN_TAGS,note.getTags());
         values.put(Constants.COLUMN_CREATED_TIME,System.currentTimeMillis());
         values.put(Constants.COLUMN_MODIFIED_TIME,System.currentTimeMillis());
-        Uri result = mContext.getContentResolver().insert(NoteContentProvider.CONTENT_URI,values);
+        Uri result = mContext.getContentResolver().insert(NoteContentProvider.CONTENT_URI_NOTE,values);
         long id = Long.parseLong(result.getLastPathSegment());
         return id;
     }
 
     public List<Note> getAllNotes(){
         List<Note> notes = new ArrayList<Note>();
-        Cursor cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI, Constants.COLUMNS, null, null, null);
+        Cursor cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_NOTE, Constants.COLUMNS, null, null, null);
         if(cursor != null){
             cursor.moveToFirst();
             while(!cursor.isAfterLast()){
@@ -58,7 +58,7 @@ public class NoteManager {
 
     public Note getNote(Long id){
         Note note;
-        Cursor cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI,
+        Cursor cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_NOTE,
                 Constants.COLUMNS, Constants.COLUMN_ID + "=" +id,null,null,null);
         if(cursor != null){
             cursor.moveToFirst();
@@ -75,12 +75,12 @@ public class NoteManager {
         //values.put(Constants.COLUMN_TAGS,note.getTags());
         values.put(Constants.COLUMN_CREATED_TIME,System.currentTimeMillis());
         values.put(Constants.COLUMN_MODIFIED_TIME,System.currentTimeMillis());
-        mContext.getContentResolver().update(NoteContentProvider.CONTENT_URI,
+        mContext.getContentResolver().update(NoteContentProvider.CONTENT_URI_NOTE,
                 values, Constants.COLUMN_ID + "=" + note.getId(), null);
     }
 
     public void delete(Note note){
-        mContext.getContentResolver().delete(NoteContentProvider.CONTENT_URI,Constants.COLUMN_ID + "=" + note.getId(), null);
+        mContext.getContentResolver().delete(NoteContentProvider.CONTENT_URI_NOTE,Constants.COLUMN_ID + "=" + note.getId(), null);
     }
 
     public void generate_PDF(){

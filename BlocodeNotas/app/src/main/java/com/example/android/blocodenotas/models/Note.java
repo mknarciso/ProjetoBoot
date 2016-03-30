@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Stack;
 
 
 /**
@@ -18,7 +19,7 @@ public class Note {
     private Long id;
     private String title;
     private String content;
-    private String tags;
+    private Stack<Tag> tags;
     private Calendar dateCreated;
     private Calendar dateModified;
 
@@ -48,7 +49,7 @@ public class Note {
 
 
 
-
+/*
     public void setTags(String tag) {
         Long noteID = this.id;
         this.tags=tag;
@@ -59,8 +60,9 @@ public class Note {
     }
 
     public String getTags() {
+
         return tags;
-    }
+    }*/
 
     public String getContent() {
         return content;

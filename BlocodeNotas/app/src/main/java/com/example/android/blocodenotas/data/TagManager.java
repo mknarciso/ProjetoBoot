@@ -43,7 +43,7 @@ public class TagManager {
     public List<Tag> getAllTags(){
         List<Tag> tags = new ArrayList<Tag>();
         //zzz
-        Cursor cursor = mContext.getContentResolver().query(TagContentProvider.CONTENT_URI, Constag.COLUMNS, null, null, null);
+        Cursor cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_TAG, Constag.COLUMNS, null, null, null);
         if(cursor != null){
             cursor.moveToFirst();
             while(!cursor.isAfterLast()){
@@ -55,9 +55,26 @@ public class TagManager {
         return tags;
     }
 
+    public String getAllTagsString(){
+        List<Tag> mCurrentNoteTags;
+        StringBuilder s = new StringBuilder("");
+        mCurrentNoteTags = getAllTags();
+        for (int i=0; i<mCurrentNoteTags.size(); i++) {
+            s.append(mCurrentNoteTags.get(i).getTag());
+            s.append(";");
+        }
+        return s.toString();
+    }
+
+    public void addTags(List<Tag> tags){
+        for (int i=0; i<tags.size(); i++) {
+            create(tags.get(i).getTag());
+        }
+    }
+
     public Tag getTag(Long id){
         Tag tag;
-        Cursor cursor = mContext.getContentResolver().query(TagContentProvider.CONTENT_URI,
+        Cursor cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_TAG,
                 Constag.COLUMNS, Constag.COLUMN_ID + "=" +id,null,null,null);
         if(cursor != null){
             cursor.moveToFirst();
@@ -69,7 +86,7 @@ public class TagManager {
 
     public Long getTagId(String name){
         Tag tag;
-        Cursor cursor = mContext.getContentResolver().query(TagContentProvider.CONTENT_URI,
+        Cursor cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_TAG,
                 Constag.COLUMNS, Constag.COLUMN_NAME + "=" +name,null,null,null);
         if(cursor != null){
             cursor.moveToFirst();
@@ -82,7 +99,7 @@ public class TagManager {
     }
 
     public void delete(Tag tag){
-        mContext.getContentResolver().delete(TagContentProvider.CONTENT_URI,Constag.COLUMN_ID + "=" + tag.getId(), null);
+        mContext.getContentResolver().delete(NoteContentProvider.CONTENT_URI_TAG,Constag.COLUMN_ID + "=" + tag.getId(), null);
     }
 
 }

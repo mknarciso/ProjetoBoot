@@ -14,7 +14,7 @@ import com.example.android.blocodenotas.utility.Constrel;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "blocodenotas.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,15 +39,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + Constag.TAG_TABLE
             + "("
             + Constag.COLUMN_ID + " integer primary key autoincrement, "
-            + Constag.COLUMN_NAME + " text not null, " + ")";
+            + Constag.COLUMN_NAME + " text not null " + ")";
 
     private static final String CREATE_TABLE_REL = "create table "
             + Constrel.REL_TABLE
             + "("
             + Constrel.COLUMN_ID + " integer primary key autoincrement, "
             + Constrel.COLUMN_TAG + " text not null,"
-            + Constrel.COLUMN_NOTE + " integer not null, "
-            + " )";
+            + Constrel.COLUMN_NOTE + " integer not null" + " )";
 
     private static final String CREATE_TABLE_NOTE = "create table "
             + Constants.NOTES_TABLE

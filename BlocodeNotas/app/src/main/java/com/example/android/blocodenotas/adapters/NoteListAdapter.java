@@ -13,18 +13,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.blocodenotas.R;
+import com.example.android.blocodenotas.data.TagManager;
 import com.example.android.blocodenotas.models.Note;
+import com.example.android.blocodenotas.models.Tag;
 
 import java.util.List;
 
 public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHolder>{
 
     private List<Note> mNotes;
+    private String mTags;
     private Context mContext;
 
     //constructor
-    public NoteListAdapter(List<Note> notes, Context context){
+    public NoteListAdapter(List<Note> notes, String tags, Context context){
         mNotes = notes;
+        mTags = tags;
         mContext = context;
 
     }
@@ -42,7 +46,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
         holder.noteTitle.setText(mNotes.get(position).getTitle());
         holder.noteCreateDate.setText(mNotes.get(position).getReadableModifiedDate());
         holder.noteContent.setText(mNotes.get(position).getContent());
-        holder.noteTags.setText(mNotes.get(position).getTagsAsString());
+        holder.noteTags.setText(mTags);
     }
 
     @Override

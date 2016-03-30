@@ -22,7 +22,11 @@ import android.widget.Toast;
 import com.example.android.blocodenotas.R;
 import com.example.android.blocodenotas.activities.MainActivity;
 import com.example.android.blocodenotas.data.NoteManager;
+import com.example.android.blocodenotas.data.TagManager;
 import com.example.android.blocodenotas.models.Note;
+import com.example.android.blocodenotas.models.Tag;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +38,9 @@ public class NotePlainEditorFragment extends Fragment {
     private EditText mContentEditText;
     private EditText mTagsEditText;
     private Note mCurrentNote = null;
+    private List<Tag> mCurrentNoteTags;
+    private String TagsList;
+    private Tag tag;
 
     private void makeToast(String mensagem){
         Toast.makeText(getActivity(),mensagem,Toast.LENGTH_SHORT).show();
@@ -43,7 +50,7 @@ public class NotePlainEditorFragment extends Fragment {
         mTitleEditText.setText(mCurrentNote.getTitle());
         mContentEditText.setText(mCurrentNote.getContent());
         ///zzz
-        mTagsEditText.setText(mCurrentNote.getTags());
+        mTagsEditText.setText(TagsList);
     }
 
     public void promptForDelete(){
@@ -149,14 +156,20 @@ public class NotePlainEditorFragment extends Fragment {
             mCurrentNote.setContent(content);
             mCurrentNote.setTitle(title);
             //zzz
-            mCurrentNote.setTags(tags);
+            tag = new Tag();
+            tag.setTag(tags);
+            mCurrentNoteTags.add(tag);
+            //mCurrentNote.setTags(tags);
             NoteManager.newInstance(getActivity()).update(mCurrentNote);
+            //zzz
+            TagManager.newInstance(getActivity()).addTags(mCurrentNoteTags);
         }else {
             Note note = new Note();
             note.setTitle(title);
             note.setContent(content);
-            note.setTags(tags);
+            //note.setTags(tags);
             NoteManager.newInstance(getActivity()).create(note);
+            TagManager.newInstance(getActivity()).create(tags);
         }
         return true;
     }
@@ -166,7 +179,10 @@ public class NotePlainEditorFragment extends Fragment {
         if (args != null && args.containsKey("id")){
             long id = args.getLong("id", 0);
             if (id > 0){
+                //StringBuilder s = new StringBuilder("");
                 mCurrentNote = NoteManager.newInstance(getActivity()).getNote(id);
+                //mCurrentNoteTags = TagManager.newInstance(getActivity()).getAllTags();
+                TagsList = TagManager.newInstance(getActivity()).getAllTagsString();
             }
         }
     }
