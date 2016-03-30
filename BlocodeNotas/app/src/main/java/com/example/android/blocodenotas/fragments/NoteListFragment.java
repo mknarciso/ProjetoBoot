@@ -131,7 +131,7 @@ public class NoteListFragment extends Fragment {
                 return lhs.getTitle().compareTo(rhs.getTitle());
             }
         });
-        mAdapter = new NoteListAdapter(mNotes,getActivity());
+        mAdapter = new NoteListAdapter(mNotes,mTags,getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
     }
