@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import com.example.android.blocodenotas.utility.Constag;
 import com.example.android.blocodenotas.utility.Constants;
+import com.example.android.blocodenotas.utility.Constrel;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,15 +22,19 @@ import java.util.HashSet;
 public class NoteContentProvider extends ContentProvider {
     private DatabaseHelper dbHelper;
 
-    private static final String BASE_PATH_NOTE = "notes";
+    private static final String BASE_PATH_NOTE = Constants.NOTES_TABLE;
     private static final int NOTE = 100;
     private static final int NOTES = 101;
-    private static final String BASE_PATH_TAG = "tags";
+    private static final String BASE_PATH_TAG = Constag.TAG_TABLE;
     private static final int TAG = 200;
     private static final int TAGS = 201;
+    private static final String BASE_PATH_REL = Constrel.REL_TABLE;
+    private static final int REL = 300;
+    private static final int RELS = 301;
     private static final String AUTHORITY = "com.example.android.blocodenotas.data.provider";
     public static final Uri CONTENT_URI_NOTE = Uri.parse("content://" + AUTHORITY +"/" + BASE_PATH_NOTE);
     public static final Uri CONTENT_URI_TAG = Uri.parse("content://" + AUTHORITY +"/" + BASE_PATH_TAG);
+    public static final Uri CONTENT_URI_REL = Uri.parse("content://" + AUTHORITY +"/" + BASE_PATH_REL);
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
         static {
@@ -37,6 +42,8 @@ public class NoteContentProvider extends ContentProvider {
             URI_MATCHER.addURI(AUTHORITY,BASE_PATH_NOTE + "/#",NOTE );
             URI_MATCHER.addURI(AUTHORITY, BASE_PATH_TAG,TAGS);
             URI_MATCHER.addURI(AUTHORITY,BASE_PATH_TAG + "/#",TAG );
+            URI_MATCHER.addURI(AUTHORITY, BASE_PATH_REL,RELS);
+            URI_MATCHER.addURI(AUTHORITY,BASE_PATH_REL + "/#",REL );
         }
 
     private SQLiteQueryBuilder queryBuilder;
@@ -73,6 +80,15 @@ public class NoteContentProvider extends ContentProvider {
                 //checkColumns(projection);
                 queryBuilder.appendWhere(Constag.COLUMN_ID + "=" + projection[0]);
                 break;
+            case REL:
+                queryBuilder.setTables(Constrel.REL_TABLE);
+                //checkColumns(projection);
+                break;
+            case RELS:
+                queryBuilder.setTables(Constrel.REL_TABLE);
+                //checkColumns(projection);
+                queryBuilder.appendWhere(Constrel.COLUMN_ID + "=" + projection[0]);
+                break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
@@ -101,6 +117,10 @@ public class NoteContentProvider extends ContentProvider {
             case TAGS:
                 id = db.insert(Constag.TAG_TABLE, null, values);
                 value = Uri.parse(BASE_PATH_TAG + "/" + id);
+                break;
+            case RELS:
+                id = db.insert(Constrel.REL_TABLE, null, values);
+                value = Uri.parse(BASE_PATH_REL + "/" + id);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -140,7 +160,18 @@ public class NoteContentProvider extends ContentProvider {
                     affectedRows = db.delete(Constag.TAG_TABLE, Constag.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
                 }
                 break;
+            case RELS:
+                affectedRows = db.delete(Constrel.REL_TABLE, selection, selectionArgs);
+                break;
 
+            case REL:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    affectedRows = db.delete(Constrel.REL_TABLE, Constrel.COLUMN_ID + "=" + id, null);
+                } else {
+                    affectedRows = db.delete(Constrel.REL_TABLE, Constrel.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
+                }
+                break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
@@ -178,6 +209,18 @@ public class NoteContentProvider extends ContentProvider {
                     affectedRows = db.update(Constag.TAG_TABLE, values, Constag.COLUMN_ID + "=" + id, null);
                 } else {
                     affectedRows = db.update(Constag.TAG_TABLE, values, Constag.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
+                }
+                break;
+            case RELS:
+                affectedRows = db.update(Constrel.REL_TABLE, values, selection, selectionArgs);
+                break;
+
+            case REL:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    affectedRows = db.update(Constrel.REL_TABLE, values, Constrel.COLUMN_ID + "=" + id, null);
+                } else {
+                    affectedRows = db.update(Constrel.REL_TABLE, values, Constrel.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
                 }
                 break;
 

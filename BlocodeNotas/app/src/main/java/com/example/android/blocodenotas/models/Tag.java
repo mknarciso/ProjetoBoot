@@ -4,9 +4,9 @@ import android.database.Cursor;
 
 import com.example.android.blocodenotas.utility.Constag;
 
-import java.lang.reflect.Array;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+//import java.lang.reflect.Array;
+//import java.util.Calendar;
+//import java.util.GregorianCalendar;
 
 /**
  * Created by Murilo on 29-Mar-16.
@@ -14,7 +14,7 @@ import java.util.GregorianCalendar;
 public class Tag {
     private Long id;
     private String tag;
-    private int note_id;
+    //private int note_id;
 
     public void setId(Long tag_id){
         this.id = tag_id;
@@ -28,12 +28,12 @@ public class Tag {
     public String getTag(){
         return this.tag;
     }
-    public void setNoteId(int note_id){
-        this.note_id = note_id;
-    }
-    public int getNoteId(){
-        return this.note_id;
-    }
+    //public void setNoteId(int note_id){
+    //    this.note_id = note_id;
+    //}
+    //public int getNoteId(){
+    //    return this.note_id;
+    //}
 
     public static Tag getTagFromCursor(Cursor cursor) {
         Tag tag = new Tag();
@@ -41,5 +41,6 @@ public class Tag {
         tag.setTag(cursor.getString(cursor.getColumnIndex(Constag.COLUMN_NAME)));
         return tag;
     }
+
 
 }

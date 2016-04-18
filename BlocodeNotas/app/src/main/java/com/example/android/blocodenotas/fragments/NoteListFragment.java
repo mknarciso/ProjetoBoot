@@ -17,8 +17,10 @@ import com.example.android.blocodenotas.R;
 import com.example.android.blocodenotas.activities.NoteEditorActivity;
 import com.example.android.blocodenotas.adapters.NoteListAdapter;
 import com.example.android.blocodenotas.data.NoteManager;
+import com.example.android.blocodenotas.data.RelManager;
 import com.example.android.blocodenotas.data.TagManager;
 import com.example.android.blocodenotas.models.Note;
+import com.example.android.blocodenotas.models.Rel;
 import com.example.android.blocodenotas.models.Tag;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -34,7 +36,9 @@ public class NoteListFragment extends Fragment {
     private FloatingActionButton mFab;
     private View mRootView;
     private List<Note> mNotes;
-    private String mTags;
+    private List<Tag> mTags;
+    private List<Rel> mRels;
+    //private String mTags;
     private RecyclerView mRecyclerView;
     private NoteListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -116,9 +120,15 @@ public class NoteListFragment extends Fragment {
             }
         });
 
+
+        //ZZZZZZZ - AQUI!!!
+
+
         mNotes = NoteManager.newInstance(getActivity()).getAllNotes();
-        mTags = TagManager.newInstance(getActivity()).getAllTagsString();
-        mAdapter = new NoteListAdapter(mNotes, mTags, getActivity());
+        mTags = TagManager.newInstance(getActivity()).getAllTags();
+        mRels = RelManager.newInstance(getActivity()).getAllRels();
+        //mTags = TagManager.newInstance(getActivity()).getAllTagsString();
+        mAdapter = new NoteListAdapter(mNotes, mTags, mRels, getActivity());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -131,7 +141,7 @@ public class NoteListFragment extends Fragment {
                 return lhs.getTitle().compareTo(rhs.getTitle());
             }
         });
-        mAdapter = new NoteListAdapter(mNotes,mTags,getActivity());
+        mAdapter = new NoteListAdapter(mNotes,mTags,mRels,getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
     }

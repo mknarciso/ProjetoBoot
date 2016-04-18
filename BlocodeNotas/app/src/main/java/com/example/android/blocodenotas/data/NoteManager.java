@@ -4,8 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.android.blocodenotas.models.Note;
+import com.example.android.blocodenotas.models.Rel;
+import com.example.android.blocodenotas.models.Tag;
 import com.example.android.blocodenotas.utility.Constants;
 
 import java.util.ArrayList;
@@ -80,7 +83,7 @@ public class NoteManager {
     }
 
     public void delete(Note note){
-        mContext.getContentResolver().delete(NoteContentProvider.CONTENT_URI_NOTE,Constants.COLUMN_ID + "=" + note.getId(), null);
+        mContext.getContentResolver().delete(NoteContentProvider.CONTENT_URI_NOTE, Constants.COLUMN_ID + "=" + note.getId(), null);
     }
 
     public void generate_PDF(){

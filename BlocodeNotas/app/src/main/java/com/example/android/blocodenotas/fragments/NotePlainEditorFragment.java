@@ -22,10 +22,13 @@ import android.widget.Toast;
 import com.example.android.blocodenotas.R;
 import com.example.android.blocodenotas.activities.MainActivity;
 import com.example.android.blocodenotas.data.NoteManager;
+import com.example.android.blocodenotas.data.RelManager;
 import com.example.android.blocodenotas.data.TagManager;
 import com.example.android.blocodenotas.models.Note;
+import com.example.android.blocodenotas.models.Rel;
 import com.example.android.blocodenotas.models.Tag;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -132,6 +135,20 @@ public class NotePlainEditorFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    public List<String> breakTags(String fullTags){
+        List<String> result = new ArrayList<>();
+        StringBuilder s = new StringBuilder("");
+        for (int i = 0; i < fullTags.length(); i++) {
+            if (fullTags.charAt(i) == ',' | fullTags.charAt(i) == ';' | fullTags.charAt(i) == '.') {
+                result.add(s.toString());
+                s = new StringBuilder("");
+            } else {
+                s.append(fullTags.charAt(i));
+            }
+        }
+        return result;
+    }
+
     private boolean saveNote(){
 
         String title = mTitleEditText.getText().toString();
@@ -151,25 +168,31 @@ public class NotePlainEditorFragment extends Fragment {
             mTagsEditText.setError("Tags are required");
             return false;
         }
-
+        List<String> brokeTags = breakTags(tags);
         if(mCurrentNote != null){
             mCurrentNote.setContent(content);
             mCurrentNote.setTitle(title);
             //zzz
-            tag = new Tag();
-            tag.setTag(tags);
-            mCurrentNoteTags.add(tag);
+            /*for(int i=0; i<brokeTags.size(); i++){
+                Long tag_id = TagManager.newInstance(getActivity()).exist(brokeTags.get(i));
+                if (tag_id==null){
+                    tag = new Tag();
+                    tag.setTag(tags);
+                    mCurrentNoteTags.add(tag);
+                }
+            }*/
+
             //mCurrentNote.setTags(tags);
             NoteManager.newInstance(getActivity()).update(mCurrentNote);
-            //zzz
-            TagManager.newInstance(getActivity()).addTags(mCurrentNoteTags);
+            TagManager.newInstance(getActivity()).addTags(brokeTags, mCurrentNote.getId());
         }else {
             Note note = new Note();
             note.setTitle(title);
             note.setContent(content);
             //note.setTags(tags);
-            NoteManager.newInstance(getActivity()).create(note);
-            TagManager.newInstance(getActivity()).create(tags);
+            Long note_id = NoteManager.newInstance(getActivity()).create(note);
+            // ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
+            TagManager.newInstance(getActivity()).addTags(breakTags(tags),note_id);
         }
         return true;
     }
@@ -179,10 +202,9 @@ public class NotePlainEditorFragment extends Fragment {
         if (args != null && args.containsKey("id")){
             long id = args.getLong("id", 0);
             if (id > 0){
-                //StringBuilder s = new StringBuilder("");
                 mCurrentNote = NoteManager.newInstance(getActivity()).getNote(id);
-                //mCurrentNoteTags = TagManager.newInstance(getActivity()).getAllTags();
-                TagsList = TagManager.newInstance(getActivity()).getAllTagsString();
+                //TagsList = TagManager.newInstance(getActivity()).getAllTagsString();
+                TagsList = mCurrentNote.getNoteTags(getActivity());
             }
         }
     }

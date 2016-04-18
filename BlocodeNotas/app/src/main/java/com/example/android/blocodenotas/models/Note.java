@@ -1,13 +1,18 @@
 package com.example.android.blocodenotas.models;
 
+import android.content.Context;
 import android.database.Cursor;
 
+import com.example.android.blocodenotas.data.RelManager;
+import com.example.android.blocodenotas.data.TagManager;
 import com.example.android.blocodenotas.utility.Constants;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Stack;
 
@@ -45,6 +50,46 @@ public class Note {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getNoteTags(Context context){
+        List<Tag> mTags = TagManager.newInstance(context).getAllTags();
+        List<Rel> mRels = RelManager.newInstance(context).getAllRels();
+        List<Long> tagsList = new ArrayList<>();
+        StringBuilder s = new StringBuilder("");
+        for (int i=0; i<mRels.size(); i++) {
+            if(mRels.get(i).getNoteId()==this.id){
+                tagsList.add(mRels.get(i).getTagId());
+                //mTagsText.append(mTags());
+            }
+        }
+        for (int j=0; j<tagsList.size(); j++) {
+            for (int i = 0; i < mTags.size(); i++) {
+                if(tagsList.get(j)==mTags.get(i).getId()){
+                    s.append(mTags.get(i).getTag());
+                    s.append("; ");
+                }
+            }
+        }
+        return s.toString();
+    }
+
+    public List<Tag> getTags(Context context){
+        List<Tag> mTags = TagManager.newInstance(context).getAllTags();
+        List<Rel> mRels = RelManager.newInstance(context).getAllRels();
+        List<Tag> tagsList = new ArrayList<Tag>();
+        Long tag_id;
+        for (int i=0; i<mRels.size(); i++) {
+            if(mRels.get(i).getNoteId()==this.id){
+                tag_id = mRels.get(i).getTagId();
+                for (int j=0; j< mTags.size(); j++){
+                    if (mTags.get(j).getId()==tag_id){
+                        tagsList.add(mTags.get(j));
+                    }
+                }
+            }
+        }
+        return tagsList;
     }
 
 

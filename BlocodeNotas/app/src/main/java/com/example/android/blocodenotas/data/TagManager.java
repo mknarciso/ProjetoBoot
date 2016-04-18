@@ -36,8 +36,19 @@ public class TagManager {
         ContentValues values = new ContentValues();
         values.put(Constag.COLUMN_NAME,name);
         //zzz
-        Uri result = mContext.getContentResolver().insert(TagContentProvider.CONTENT_URI, values);
+        Uri result = mContext.getContentResolver().insert(NoteContentProvider.CONTENT_URI_TAG, values);
         return Long.parseLong(result.getLastPathSegment());
+    }
+    public Long exist(String name){
+        ContentValues values = new ContentValues();
+        String[] projection = {Constag.COLUMN_ID};
+        values.put(Constag.COLUMN_NAME,name);
+        Cursor result = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_TAG, projection, name, null, null);
+        if (result!=null){
+            result.moveToFirst();
+            return result.getLong(result.getColumnIndex(Constag.COLUMN_ID));
+        }
+        return null;
     }
 
     public List<Tag> getAllTags(){
@@ -66,10 +77,33 @@ public class TagManager {
         return s.toString();
     }
 
-    public void addTags(List<Tag> tags){
+    public void addTags(List<String> tags, Long note_id){
+        List<Long> tagsIdsList = new ArrayList<>();
+        for(int i=0; i<tags.size(); i++){
+            Long tag_id = exist(tags.get(i));
+            if (tag_id==null){
+                tag_id = create(tags.get(i));
+            }
+            tagsIdsList.add(tag_id);
+        }
+
         for (int i=0; i<tags.size(); i++) {
             create(tags.get(i).getTag());
         }
+    }
+
+    public List<String> breakTags(String fullTags){
+        List<String> result = new ArrayList<>();
+        StringBuilder s = new StringBuilder("");
+        for (int i = 0; i < fullTags.length(); i++) {
+            if (fullTags.charAt(i) == ',' | fullTags.charAt(i) == ';' | fullTags.charAt(i) == '.') {
+                result.add(s.toString());
+                s = new StringBuilder("");
+            } else {
+                s.append(fullTags.charAt(i));
+            }
+        }
+        return result;
     }
 
     public Tag getTag(Long id){
