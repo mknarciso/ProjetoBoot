@@ -24,8 +24,6 @@ import com.example.android.blocodenotas.models.Rel;
 import com.example.android.blocodenotas.models.Tag;
 import com.melnykov.fab.FloatingActionButton;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -42,6 +40,13 @@ public class NoteListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private NoteListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    public static int typeSort = 0;
+
+    public void setTypeSort (int type)
+    {
+        NoteListFragment.typeSort = type;
+    }
+
 
 
     private void makeToast(String mensagem){
@@ -120,11 +125,8 @@ public class NoteListFragment extends Fragment {
             }
         });
 
-
         //ZZZZZZZ - AQUI!!!
-
-
-        mNotes = NoteManager.newInstance(getActivity()).getAllNotes();
+        mNotes = NoteManager.newInstance(getActivity()).getAllNotes(NoteListFragment.typeSort);
         mTags = TagManager.newInstance(getActivity()).getAllTags();
         mRels = RelManager.newInstance(getActivity()).getAllRels();
         //mTags = TagManager.newInstance(getActivity()).getAllTagsString();
@@ -133,8 +135,8 @@ public class NoteListFragment extends Fragment {
     }
 
 
-    public void sortByTitle (){
-        mNotes = NoteManager.newInstance(getActivity()).getAllNotes();
+   /* public void sortByTitle (){
+        mNotes = NoteManager.newInstance(getActivity()).getAllNotes(getTypeSort());
         Collections.sort(mNotes, new Comparator<Note>() {
             @Override
             public int compare(Note lhs, Note rhs) {
@@ -160,7 +162,7 @@ public class NoteListFragment extends Fragment {
                 return lhs.getDataModified().compareTo(rhs.getDataModified());
             }
         });
-    }
+    }*/
 
 
 }
