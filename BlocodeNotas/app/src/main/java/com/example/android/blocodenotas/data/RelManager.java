@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.example.android.blocodenotas.models.Rel;
-import com.example.android.blocodenotas.models.Tag;
-import com.example.android.blocodenotas.utility.Constag;
 import com.example.android.blocodenotas.utility.Constrel;
 
 import java.util.ArrayList;
@@ -54,7 +52,7 @@ public class RelManager {
         }
         return rels;
     }
-    /* RESTART FROM HERE! zzzzz */
+
     public List<Rel> getNoteRels(long note_id){
         List<Rel> mCurrentNoteRels, rels = new ArrayList<Rel>();
         mCurrentNoteRels = getAllRels();
@@ -65,31 +63,6 @@ public class RelManager {
         }
         return rels;
     }
-    /*public String getNoteTagsText(long note_id){
-        List<Rel> mCurrentNoteRels;
-        TagManager tagtag = new TagManager();
-        Tag currentTag = new Tag();
-        StringBuilder s = new StringBuilder("");
-        mCurrentNoteRels = getNoteRels(note_id);
-        for (int i=0; i<mCurrentNoteRels.size(); i++) {
-            currentTag = currentTag.setId(mCurrentNoteRels.get(i).getTagId());
-            s.append(mCurrentNoteRels.get(i));
-            //s.append(mCurrentNoteRels.get(i).getRel());
-            s.append(";");
-        }
-        return s.toString();
-    }*/
-    /*public List<Rel> getNoteRels(long note_id){
-        List<Rel> mCurrentNoteRels;
-        StringBuilder s = new StringBuilder("");
-        mCurrentNoteRels = getAllRels();
-        for (int i=0; i<mCurrentNoteRels.size(); i++) {
-            s.append(mCurrentNoteRels.get(i));
-            //s.append(mCurrentNoteRels.get(i).getRel());
-            s.append(";");
-        }
-        return s.toString();
-    }*/
 
     public void addRels(List<Rel> tags){
         for (int i=0; i<tags.size(); i++) {
@@ -104,16 +77,4 @@ public class RelManager {
                                                 null);
     }
 
-
-    /*public Long exist(Long note_id, Long tag_id){
-        //ContentValues values = new ContentValues();
-        String[] projection = {Constag.COLUMN_ID};
-        //values.put(Constag.COLUMN_NAME,name);
-        Cursor result = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_TAG, projection, name, null, null);
-        if (result!=null){
-            result.moveToFirst();
-            return result.getLong(result.getColumnIndex(Constag.COLUMN_ID));
-        }
-        return null;
-    }*/
 }

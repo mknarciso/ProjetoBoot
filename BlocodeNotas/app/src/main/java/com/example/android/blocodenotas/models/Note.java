@@ -112,21 +112,6 @@ public class Note {
         return tagsList;
     }
 
-/*
-    public void setTags(String tag) {
-        Long noteID = this.id;
-        this.tags=tag;
-    }
-
-    public String getTagsAsString() {
-        return tags;
-    }
-
-    public String getTags() {
-
-        return tags;
-    }*/
-
     public String getContent() {
         return content;
     }

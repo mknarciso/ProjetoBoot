@@ -28,12 +28,6 @@ public class Tag {
     public String getTag(){
         return this.tag;
     }
-    //public void setNoteId(int note_id){
-    //    this.note_id = note_id;
-    //}
-    //public int getNoteId(){
-    //    return this.note_id;
-    //}
 
     public static Tag getTagFromCursor(Cursor cursor) {
         Tag tag = new Tag();

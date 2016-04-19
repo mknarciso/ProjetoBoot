@@ -41,9 +41,7 @@ public class TagManager {
         return Long.parseLong(result.getLastPathSegment());
     }
     public Long exist(String name){
-        //ContentValues values = new ContentValues();
         String[] projection = {Constag.COLUMN_ID,Constag.COLUMN_NAME};
-        //values.put(Constag.COLUMN_NAME,name);
         Cursor result = mContext.getContentResolver().query(    NoteContentProvider.CONTENT_URI_TAG,
                                                                 projection,
                                                                 Constag.COLUMN_NAME + "='" + name + "'",
@@ -114,19 +112,6 @@ public class TagManager {
         }
     }
 
-    public List<String> breakTags(String fullTags){
-        List<String> result = new ArrayList<>();
-        StringBuilder s = new StringBuilder("");
-        for (int i = 0; i < fullTags.length(); i++) {
-            if (fullTags.charAt(i) == ',' | fullTags.charAt(i) == ';' | fullTags.charAt(i) == '.'| fullTags.charAt(i) == ' ') {
-                result.add(s.toString());
-                s = new StringBuilder("");
-            } else {
-                s.append(fullTags.charAt(i));
-            }
-        }
-        return result;
-    }
 
     public Tag getTag(Long id){
         Tag tag;
