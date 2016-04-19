@@ -24,7 +24,7 @@ public class SampleData {
         tags_aux.add("sugou");
         tags_aux.add("tarefa");
         tags_aux.add("ele-12");
-        note1.setTags(tags_aux.toString());
+        //note1.setTags(tags_aux.toString());
         Calendar calendar1 = GregorianCalendar.getInstance();
         note1.setDataModified(calendar1);
 
@@ -40,7 +40,7 @@ public class SampleData {
         tags_aux.add("freeletics");
         tags_aux.add("#noexcuses");
         tags_aux.add("#painistemporary");
-        note2.setTags(tags_aux.toString());
+        //note2.setTags(tags_aux.toString());
         note2.setContent("Partiu 11 semana do Freeletics");
 
         //change the date to random time
@@ -59,7 +59,7 @@ public class SampleData {
         tags_aux.add("ideia");
         tags_aux.add("medium");
         tags_aux.add("universidade");
-        note3.setTags(tags_aux.toString());
+        //note3.setTags(tags_aux.toString());
         note3.setContent("I will like to write a blog post about how to make money online");
 
         //change the date to random time
@@ -79,7 +79,7 @@ public class SampleData {
         tags_aux.add("food");
         tags_aux.add("yummy");
         tags_aux.add("hungry");
-        note4.setTags(tags_aux.toString());
+        //note4.setTags(tags_aux.toString());
         note4.setContent("Today I found a recipe to make cup cake from www.google.");
 
         //pad the date with random number of days and minute
@@ -100,8 +100,10 @@ public class SampleData {
         tags_aux.add("learning");
         tags_aux.add("network");
         tags_aux.add("carreira");
-        note5.setTags(tags_aux.toString());
+        //note5.setTags(tags_aux.toString());
         note5.setContent("Today I attended a developer's networking event and it was great");
+
+
 
         //pad the date with two days
         //pad the date with random number of days and minute

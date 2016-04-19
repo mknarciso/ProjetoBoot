@@ -1,14 +1,20 @@
 package com.example.android.blocodenotas.models;
 
+import android.content.Context;
 import android.database.Cursor;
 
+import com.example.android.blocodenotas.data.RelManager;
+import com.example.android.blocodenotas.data.TagManager;
 import com.example.android.blocodenotas.utility.Constants;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
+import java.util.Stack;
 
 
 /**
@@ -18,7 +24,7 @@ public class Note {
     private Long id;
     private String title;
     private String content;
-    private String tags;
+    private Stack<Tag> tags;
     private Calendar dateCreated;
     private Calendar dateModified;
 
@@ -46,16 +52,64 @@ public class Note {
         this.title = title;
     }
 
-    public void setTags(String tag) {
-        this.tags=tag;
+    public String getNoteTags(Context context){
+        List<Tag> mTags = TagManager.newInstance(context).getAllTags();
+        List<Rel> mRels = RelManager.newInstance(context).getAllRels();
+        List<Long> tagsList = new ArrayList<>();
+        StringBuilder s = new StringBuilder("");
+        for (int i=0; i<mRels.size(); i++) {
+            if(mRels.get(i).getNoteId()==this.id){
+                System.out.println("note_id:"+this.id+"// adding to tag list:"+mRels.get(i).getTagId());
+                tagsList.add(mRels.get(i).getTagId());
+                //mTagsText.append(mTags());
+            }
+        }
+        for (int j=0; j<tagsList.size(); j++) {
+
+            for (int i = 0; i < mTags.size(); i++) {
+
+                if(tagsList.get(j)==mTags.get(i).getId()){
+                    System.out.println("j:"+j+"// i:"+i);
+                    System.out.println("mTags.get(i).getTag()"+mTags.get(i).getTag());
+                    System.out.println("tagsList.get(j)"+tagsList.get(j));
+                    s.append(mTags.get(i).getTag());
+                    s.append("; ");
+                }
+            }
+        }
+        return s.toString();
     }
 
-    public String getTagsAsString() {
-        return tags;
+    public List<Tag> getTags(Context context){
+        List<Tag> mTags = TagManager.newInstance(context).getAllTags();
+        List<Rel> mRels = RelManager.newInstance(context).getAllRels();
+        List<Tag> tagsList = new ArrayList<Tag>();
+        Long tag_id;
+        for (int i=0; i<mRels.size(); i++) {
+            if(mRels.get(i).getNoteId()==this.id){
+                tag_id = mRels.get(i).getTagId();
+                for (int j=0; j< mTags.size(); j++){
+                    if (mTags.get(j).getId()==tag_id){
+                        tagsList.add(mTags.get(j));
+                    }
+                }
+            }
+        }
+        return tagsList;
     }
 
-    public String getTags() {
-        return tags;
+    public List<Long> getTagsIds(Context context){
+        List<Tag> mTags = TagManager.newInstance(context).getAllTags();
+        List<Rel> mRels = RelManager.newInstance(context).getAllRels();
+        List<Long> tagsList = new ArrayList<>();
+        Long tag_id;
+        for (int i=0; i<mRels.size(); i++) {
+            if(mRels.get(i).getNoteId()==this.id){
+                tag_id = mRels.get(i).getTagId();
+                tagsList.add(tag_id);
+            }
+        }
+        return tagsList;
     }
 
     public String getContent() {

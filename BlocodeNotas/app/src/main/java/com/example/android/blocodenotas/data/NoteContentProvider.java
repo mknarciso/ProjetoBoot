@@ -9,7 +9,9 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.example.android.blocodenotas.utility.Constag;
 import com.example.android.blocodenotas.utility.Constants;
+import com.example.android.blocodenotas.utility.Constrel;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -20,17 +22,31 @@ import java.util.HashSet;
 public class NoteContentProvider extends ContentProvider {
     private DatabaseHelper dbHelper;
 
-    private static final String BASE_PATH_NOTE = "notes";
+    private static final String BASE_PATH_NOTE = Constants.NOTES_TABLE;
     private static final int NOTE = 100;
     private static final int NOTES = 101;
+    private static final String BASE_PATH_TAG = Constag.TAG_TABLE;
+    private static final int TAG = 200;
+    private static final int TAGS = 201;
+    private static final String BASE_PATH_REL = Constrel.REL_TABLE;
+    private static final int REL = 300;
+    private static final int RELS = 301;
     private static final String AUTHORITY = "com.example.android.blocodenotas.data.provider";
-    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY +"/" + BASE_PATH_NOTE);
+    public static final Uri CONTENT_URI_NOTE = Uri.parse("content://" + AUTHORITY +"/" + BASE_PATH_NOTE);
+    public static final Uri CONTENT_URI_TAG = Uri.parse("content://" + AUTHORITY +"/" + BASE_PATH_TAG);
+    public static final Uri CONTENT_URI_REL = Uri.parse("content://" + AUTHORITY +"/" + BASE_PATH_REL);
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
         static {
             URI_MATCHER.addURI(AUTHORITY, BASE_PATH_NOTE,NOTES);
             URI_MATCHER.addURI(AUTHORITY,BASE_PATH_NOTE + "/#",NOTE );
+            URI_MATCHER.addURI(AUTHORITY, BASE_PATH_TAG,TAGS);
+            URI_MATCHER.addURI(AUTHORITY,BASE_PATH_TAG + "/#",TAG );
+            URI_MATCHER.addURI(AUTHORITY, BASE_PATH_REL,RELS);
+            URI_MATCHER.addURI(AUTHORITY,BASE_PATH_REL + "/#",REL );
         }
+
+    private SQLiteQueryBuilder queryBuilder;
 
     @Override
     public boolean onCreate(){
@@ -40,22 +56,44 @@ public class NoteContentProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String [] selectionArgs, String sortOrder ){
-        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-        queryBuilder.setTables(Constants.NOTES_TABLE);
-        checkColumns(projection);
+        queryBuilder = new SQLiteQueryBuilder();
+
+
 
         int type = URI_MATCHER.match(uri);
         switch (type){
             case NOTE:
+                queryBuilder.setTables(Constants.NOTES_TABLE);
+                //checkColumns(projection);
                 break;
             case NOTES:
-                queryBuilder.appendWhere(Constants.COLUMN_ID + "=" + projection[0]);
+                queryBuilder.setTables(Constants.NOTES_TABLE);
+                //checkColumns(projection);
+                //queryBuilder.appendWhere(Constants.COLUMN_ID + "=" + projection[0]);
+                break;
+            case TAG:
+                queryBuilder.setTables(Constag.TAG_TABLE);
+                //checkColumns(projection);
+                break;
+            case TAGS:
+                queryBuilder.setTables(Constag.TAG_TABLE);
+                //checkColumns(projection);
+                //queryBuilder.appendWhere(Constag.COLUMN_ID + "=" + projection[0]);
+                break;
+            case REL:
+                queryBuilder.setTables(Constrel.REL_TABLE);
+                //checkColumns(projection);
+                break;
+            case RELS:
+                queryBuilder.setTables(Constrel.REL_TABLE);
+                //checkColumns(projection);
+                //queryBuilder.appendWhere(Constrel.COLUMN_ID + "=" + projection[0]);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor =  queryBuilder.query(db,projection,selection,selectionArgs,null, null, sortOrder);
+        Cursor cursor =  queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
         cursor.setNotificationUri(getContext().getContentResolver(),uri);
         return cursor;
     }
@@ -67,18 +105,28 @@ public class NoteContentProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values){
+        Uri value;
         int type = URI_MATCHER.match(uri);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Long id;
         switch (type){
             case NOTES:
                 id = db.insert(Constants.NOTES_TABLE, null, values);
+                value = Uri.parse(BASE_PATH_NOTE + "/" + id);
+                break;
+            case TAGS:
+                id = db.insert(Constag.TAG_TABLE, null, values);
+                value = Uri.parse(BASE_PATH_TAG + "/" + id);
+                break;
+            case RELS:
+                id = db.insert(Constrel.REL_TABLE, null, values);
+                value = Uri.parse(BASE_PATH_REL + "/" + id);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
         getContext().getContentResolver().notifyChange(uri, null);
-        return Uri.parse(BASE_PATH_NOTE + "/" + id);
+        return value;
     }
 
     @Override
@@ -86,20 +134,44 @@ public class NoteContentProvider extends ContentProvider {
         int type = URI_MATCHER.match(uri);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int affectedRows;
+        String id;
         switch (type) {
             case NOTES:
                 affectedRows = db.delete(Constants.NOTES_TABLE, selection, selectionArgs);
                 break;
 
             case NOTE:
-                String id = uri.getLastPathSegment();
+                id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     affectedRows = db.delete(Constants.NOTES_TABLE, Constants.COLUMN_ID + "=" + id, null);
                 } else {
                     affectedRows = db.delete(Constants.NOTES_TABLE, Constants.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
                 }
                 break;
+            case TAGS:
+                affectedRows = db.delete(Constag.TAG_TABLE, selection, selectionArgs);
+                break;
 
+            case TAG:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    affectedRows = db.delete(Constag.TAG_TABLE, Constag.COLUMN_ID + "=" + id, null);
+                } else {
+                    affectedRows = db.delete(Constag.TAG_TABLE, Constag.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
+                }
+                break;
+            case RELS:
+                affectedRows = db.delete(Constrel.REL_TABLE, selection, selectionArgs);
+                break;
+
+            case REL:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    affectedRows = db.delete(Constrel.REL_TABLE, Constrel.COLUMN_ID + "=" + id, null);
+                } else {
+                    affectedRows = db.delete(Constrel.REL_TABLE, Constrel.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
+                }
+                break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
@@ -112,17 +184,43 @@ public class NoteContentProvider extends ContentProvider {
         int type = URI_MATCHER.match(uri);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int affectedRows;
+        String id;
         switch (type) {
             case NOTES:
                 affectedRows = db.update(Constants.NOTES_TABLE, values, selection, selectionArgs);
                 break;
 
             case NOTE:
-                String id = uri.getLastPathSegment();
+                id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     affectedRows = db.update(Constants.NOTES_TABLE, values, Constants.COLUMN_ID + "=" + id, null);
                 } else {
                     affectedRows = db.update(Constants.NOTES_TABLE, values, Constants.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
+                }
+                break;
+
+            case TAGS:
+                affectedRows = db.update(Constag.TAG_TABLE, values, selection, selectionArgs);
+                break;
+
+            case TAG:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    affectedRows = db.update(Constag.TAG_TABLE, values, Constag.COLUMN_ID + "=" + id, null);
+                } else {
+                    affectedRows = db.update(Constag.TAG_TABLE, values, Constag.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
+                }
+                break;
+            case RELS:
+                affectedRows = db.update(Constrel.REL_TABLE, values, selection, selectionArgs);
+                break;
+
+            case REL:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    affectedRows = db.update(Constrel.REL_TABLE, values, Constrel.COLUMN_ID + "=" + id, null);
+                } else {
+                    affectedRows = db.update(Constrel.REL_TABLE, values, Constrel.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
                 }
                 break;
 
