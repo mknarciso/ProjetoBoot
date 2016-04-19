@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.blocodenotas.R;
+import com.example.android.blocodenotas.data.NoteManager;
 import com.example.android.blocodenotas.data.RelManager;
 import com.example.android.blocodenotas.data.TagManager;
 import com.example.android.blocodenotas.models.Note;
@@ -27,17 +28,17 @@ import java.util.logging.Logger;
 public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHolder>{
 
     private List<Note> mNotes;
-    private List<Tag> mTags;
-    private List<Rel> mRels;
-    //private String mTags;
+    //private List<Tag> mTags;
+    //private List<Rel> mRels;
+    private String mTagsText;
     private Context mContext;
 
     //constructor
     //public NoteListAdapter(List<Note> notes, String tags, Context context){
     public NoteListAdapter(List<Note> notes, List<Tag> tags, List<Rel> rels, Context context){
         mNotes = notes;
-        mTags = tags;
-        mRels = rels;
+        //mTags = tags;
+        //mRels = rels;
         mContext = context;
 
     }
@@ -52,28 +53,8 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Long note_id = mNotes.get(position).getId();
-        String mTagsText = mNotes.get(position).getNoteTags(mContext);
-        /*List<Long> tagsList = new ArrayList<Long>();
-        //List<Rel> mCurrentNoteRels = new ArrayList<Rel>();
-        //mCurrentNoteRels = getNoteRels(note_id);
-        Log.i("mREL_SIZE",String.valueOf(mRels.size()));
-        for (int i=0; i<mRels.size(); i++) {
-            if(mRels.get(i).getNoteId()==note_id){
-                tagsList.add(mRels.get(i).getTagId());
-                //mTagsText.append(mTags());
-            }
-        }
-        for (int j=0; j<tagsList.size(); j++) {
-            for (int i = 0; i < mTags.size(); i++) {
-                if(tagsList.get(j)==mTags.get(i).getId()){
-                    Log.i("tests", mTags.get(i).getTag());
-                    mTagsText.append(mTags.get(i).getTag());
-                    mTagsText.append("; ");
-                }
-            }
-        }*/
 
-
+        mTagsText = mNotes.get(position).getNoteTags(mContext);
 
         holder.noteTitle.setText(mNotes.get(position).getTitle());
         holder.noteCreateDate.setText(mNotes.get(position).getReadableModifiedDate());

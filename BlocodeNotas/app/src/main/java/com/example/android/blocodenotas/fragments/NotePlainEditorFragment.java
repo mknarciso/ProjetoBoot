@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +30,7 @@ import com.example.android.blocodenotas.models.Rel;
 import com.example.android.blocodenotas.models.Tag;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -145,7 +147,10 @@ public class NotePlainEditorFragment extends Fragment {
             } else {
                 s.append(fullTags.charAt(i));
             }
+
         }
+        if(s.toString()!="")
+            result.add(s.toString());
         return result;
     }
 
@@ -169,31 +174,22 @@ public class NotePlainEditorFragment extends Fragment {
             return false;
         }
         List<String> brokeTags = breakTags(tags);
+        System.out.println("DEBUG: " + brokeTags.toString());
+
         if(mCurrentNote != null){
             mCurrentNote.setContent(content);
             mCurrentNote.setTitle(title);
-            //zzz
-            /*for(int i=0; i<brokeTags.size(); i++){
-                Long tag_id = TagManager.newInstance(getActivity()).exist(brokeTags.get(i));
-                if (tag_id==null){
-                    tag = new Tag();
-                    tag.setTag(tags);
-                    mCurrentNoteTags.add(tag);
-                }
-            }*/
-
-            //mCurrentNote.setTags(tags);
             NoteManager.newInstance(getActivity()).update(mCurrentNote);
             TagManager.newInstance(getActivity()).addTags(brokeTags, mCurrentNote.getId());
         }else {
             Note note = new Note();
             note.setTitle(title);
             note.setContent(content);
-            //note.setTags(tags);
             Long note_id = NoteManager.newInstance(getActivity()).create(note);
             // ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
-            TagManager.newInstance(getActivity()).addTags(breakTags(tags),note_id);
+            TagManager.newInstance(getActivity()).addTags(breakTags(tags), note_id);
         }
+        System.out.println("TAGS" + TagManager.newInstance(getActivity()).getAllTagsString());
         return true;
     }
 

@@ -69,7 +69,7 @@ public class NoteContentProvider extends ContentProvider {
             case NOTES:
                 queryBuilder.setTables(Constants.NOTES_TABLE);
                 //checkColumns(projection);
-                queryBuilder.appendWhere(Constants.COLUMN_ID + "=" + projection[0]);
+                //queryBuilder.appendWhere(Constants.COLUMN_ID + "=" + projection[0]);
                 break;
             case TAG:
                 queryBuilder.setTables(Constag.TAG_TABLE);
@@ -78,7 +78,7 @@ public class NoteContentProvider extends ContentProvider {
             case TAGS:
                 queryBuilder.setTables(Constag.TAG_TABLE);
                 //checkColumns(projection);
-                queryBuilder.appendWhere(Constag.COLUMN_ID + "=" + projection[0]);
+                //queryBuilder.appendWhere(Constag.COLUMN_ID + "=" + projection[0]);
                 break;
             case REL:
                 queryBuilder.setTables(Constrel.REL_TABLE);
@@ -87,7 +87,7 @@ public class NoteContentProvider extends ContentProvider {
             case RELS:
                 queryBuilder.setTables(Constrel.REL_TABLE);
                 //checkColumns(projection);
-                queryBuilder.appendWhere(Constrel.COLUMN_ID + "=" + projection[0]);
+                //queryBuilder.appendWhere(Constrel.COLUMN_ID + "=" + projection[0]);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);

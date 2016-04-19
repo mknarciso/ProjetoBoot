@@ -15,16 +15,16 @@ public class Rel {
         return this.id;
     }
     public void setNoteId(Long id){
-        this.id = id;
+        this.note_id = id;
     }
     public Long getNoteId(){
-        return this.id;
+        return this.note_id;
     }
     public void setTagId(Long id){
-        this.id = id;
+        this.tag_id = id;
     }
     public Long getTagId(){
-        return this.id;
+        return this.tag_id;
     }
     public static Rel getRelFromCursor(Cursor cursor) {
         Rel rel = new Rel();

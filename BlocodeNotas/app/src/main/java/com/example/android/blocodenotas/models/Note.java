@@ -59,13 +59,19 @@ public class Note {
         StringBuilder s = new StringBuilder("");
         for (int i=0; i<mRels.size(); i++) {
             if(mRels.get(i).getNoteId()==this.id){
+                System.out.println("note_id:"+this.id+"// adding to tag list:"+mRels.get(i).getTagId());
                 tagsList.add(mRels.get(i).getTagId());
                 //mTagsText.append(mTags());
             }
         }
         for (int j=0; j<tagsList.size(); j++) {
+
             for (int i = 0; i < mTags.size(); i++) {
+
                 if(tagsList.get(j)==mTags.get(i).getId()){
+                    System.out.println("j:"+j+"// i:"+i);
+                    System.out.println("mTags.get(i).getTag()"+mTags.get(i).getTag());
+                    System.out.println("tagsList.get(j)"+tagsList.get(j));
                     s.append(mTags.get(i).getTag());
                     s.append("; ");
                 }

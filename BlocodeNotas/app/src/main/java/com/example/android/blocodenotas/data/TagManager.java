@@ -41,11 +41,17 @@ public class TagManager {
         return Long.parseLong(result.getLastPathSegment());
     }
     public Long exist(String name){
-        ContentValues values = new ContentValues();
-        String[] projection = {Constag.COLUMN_ID};
-        values.put(Constag.COLUMN_NAME,name);
-        Cursor result = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_TAG, projection, name, null, null);
-        if (result!=null){
+        //ContentValues values = new ContentValues();
+        String[] projection = {Constag.COLUMN_ID,Constag.COLUMN_NAME};
+        //values.put(Constag.COLUMN_NAME,name);
+        Cursor result = mContext.getContentResolver().query(    NoteContentProvider.CONTENT_URI_TAG,
+                                                                projection,
+                                                                Constag.COLUMN_NAME + "='" + name + "'",
+                                                                null, null);
+        result.moveToFirst();
+        System.out.println("DEBUG: " + result.getCount());
+        System.out.println("DEBUG: " + result.toString());
+        if (result.getCount()!=0){
             result.moveToFirst();
             return result.getLong(result.getColumnIndex(Constag.COLUMN_ID));
         }
@@ -82,11 +88,15 @@ public class TagManager {
         List<Long> tagsIdsList = new ArrayList<>();
         List<Long> oldTagsList = NoteManager.newInstance(mContext).getNote(note_id).getTagsIds(mContext);
         for(int i=0; i<tags.size(); i++){
+            System.out.println("TagManager - addTags - tags.get(i)" + tags.get(i));
             Long tag_id = exist(tags.get(i));
             if (tag_id==null){
                 tag_id = create(tags.get(i));
+                System.out.println("TagManager - addTags - tag_id==null");
+
             }
             tagsIdsList.add(tag_id);
+            System.out.println("TagManager - addTags - add(tag_id):"+tag_id);
         }
         List<Long> newTagsList = tagsIdsList;
         for (int i=0; i<tagsIdsList.size(); i++) {
@@ -98,13 +108,17 @@ public class TagManager {
         for(int i=0; i<oldTagsList.size(); i++) {
             RelManager.newInstance(mContext).delete(note_id, oldTagsList.get(i));
         }
+        for(int i=0; i<newTagsList.size(); i++) {
+            System.out.println("TagManager - addTags - Create new Rel:"+newTagsList.get(i));
+            RelManager.newInstance(mContext).create(note_id, newTagsList.get(i));
+        }
     }
 
     public List<String> breakTags(String fullTags){
         List<String> result = new ArrayList<>();
         StringBuilder s = new StringBuilder("");
         for (int i = 0; i < fullTags.length(); i++) {
-            if (fullTags.charAt(i) == ',' | fullTags.charAt(i) == ';' | fullTags.charAt(i) == '.') {
+            if (fullTags.charAt(i) == ',' | fullTags.charAt(i) == ';' | fullTags.charAt(i) == '.'| fullTags.charAt(i) == ' ') {
                 result.add(s.toString());
                 s = new StringBuilder("");
             } else {
