@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,14 +22,11 @@ import android.widget.Toast;
 import com.example.android.blocodenotas.R;
 import com.example.android.blocodenotas.activities.MainActivity;
 import com.example.android.blocodenotas.data.NoteManager;
-import com.example.android.blocodenotas.data.RelManager;
 import com.example.android.blocodenotas.data.TagManager;
 import com.example.android.blocodenotas.models.Note;
-import com.example.android.blocodenotas.models.Rel;
 import com.example.android.blocodenotas.models.Tag;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -131,6 +127,7 @@ public class NotePlainEditorFragment extends Fragment {
                 //save note
                 if(saveNote()){
                     makeToast(mCurrentNote != null ? "Nota atualizada":"Nota salva");
+                    getActivity().finish();
                 }
                 break;
         }
