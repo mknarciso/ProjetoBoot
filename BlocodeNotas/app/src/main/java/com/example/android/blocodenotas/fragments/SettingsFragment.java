@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.android.blocodenotas.R;
 
@@ -14,17 +15,20 @@ import com.example.android.blocodenotas.R;
  * Created by Adauto on 28/03/2016.
  */
 
-/**
- * Created by Adauto on 25/03/2016.
- */
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private View mRootView;
     Button buttonExport;
-    Button buttonOrder;
+    Button buttonOrderByTitle;
+    Button buttonOrderByCreateTime;
+    Button buttonOrderByModificationTime;
     RadioGroup ordenationTypes;
     int selected_id;
+
+    private void makeToast(String mensagem){
+        Toast.makeText(getActivity(), mensagem, Toast.LENGTH_SHORT).show();
+    }
 
 
     public static SettingsFragment newInstance(long id) {
@@ -44,37 +48,49 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
 
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        mRootView = inflater.inflate(R.layout.fragment_settings, container, false);
-        buttonExport = (Button) mRootView.findViewById(R.id.export_button);
-        buttonOrder = (Button) mRootView.findViewById(R.id.order_button);
-        buttonExport.setOnClickListener(this);
-        buttonOrder.setOnClickListener(this);
-        return inflater.inflate(R.layout.fragment_settings, container, false);
-    }
+        mRootView = inflater.inflate(R.layout.fragment_settings,container,false);
+        View v = inflater.inflate(R.layout.fragment_settings, container, false);
+        buttonExport = (Button) v.findViewById(R.id.export_button);
+        buttonExport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v){
+                makeToast("Exported");
+            }
+        });
 
-    public void onClick(View v) {
-        switch (v.getId()){
-            case(R.id.export_button):
-                //Inserir método de exportação
-                break;
-            case(R.id.order_button):
-                ordenationTypes = (RadioGroup)mRootView.findViewById(R.id.order_type);
-                selected_id = ordenationTypes.getCheckedRadioButtonId();
-                if(selected_id == R.id.button_order_date_created) {
-                    //Inserir método de ordenação por data criada
-                }
-                else if(selected_id == R.id.button_order_date_modified) {
-                    //Inserir método de ordenação por data modificada
-                }
-                else if(selected_id == R.id.button_order_title) {
-                    //Inserir método de ordenação por nome
-                }
-        }
+        buttonOrderByTitle = (Button) v.findViewById(R.id.button_order_title);
+        buttonOrderByTitle.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                NoteListFragment.typeSort = 0;
+                makeToast("Ordenado por título");
+            }
+        });
+
+        buttonOrderByCreateTime = (Button) v.findViewById(R.id.button_order_creation_time);
+        buttonOrderByCreateTime.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                NoteListFragment.typeSort = 1;
+                makeToast("Ordenado por data de criação");
+            }
+        });
+
+        buttonOrderByModificationTime = (Button) v.findViewById(R.id.button_order_mod_time);
+        buttonOrderByModificationTime.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                NoteListFragment.typeSort = 2;
+                makeToast("Ordenado por data de modificação");
+            }
+        });
+        return v;
+    }
+    public void onClick(final View v) {
     }
 }
