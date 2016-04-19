@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +23,15 @@ import android.widget.Toast;
 import com.example.android.blocodenotas.R;
 import com.example.android.blocodenotas.activities.MainActivity;
 import com.example.android.blocodenotas.data.NoteManager;
+import com.example.android.blocodenotas.data.RelManager;
+import com.example.android.blocodenotas.data.TagManager;
 import com.example.android.blocodenotas.models.Note;
+import com.example.android.blocodenotas.models.Rel;
+import com.example.android.blocodenotas.models.Tag;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +43,9 @@ public class NotePlainEditorFragment extends Fragment {
     private EditText mContentEditText;
     private EditText mTagsEditText;
     private Note mCurrentNote = null;
+    private List<Tag> mCurrentNoteTags;
+    private String TagsList;
+    private Tag tag;
 
     private void makeToast(String mensagem){
         Toast.makeText(getActivity(),mensagem,Toast.LENGTH_SHORT).show();
@@ -42,7 +54,8 @@ public class NotePlainEditorFragment extends Fragment {
     private void populateFields(){
         mTitleEditText.setText(mCurrentNote.getTitle());
         mContentEditText.setText(mCurrentNote.getContent());
-        mTagsEditText.setText(mCurrentNote.getTags());
+        ///zzz
+        mTagsEditText.setText(TagsList);
     }
 
     public void promptForDelete(){
@@ -124,6 +137,23 @@ public class NotePlainEditorFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    public List<String> breakTags(String fullTags){
+        List<String> result = new ArrayList<>();
+        StringBuilder s = new StringBuilder("");
+        for (int i = 0; i < fullTags.length(); i++) {
+            if (fullTags.charAt(i) == ',' | fullTags.charAt(i) == ';' | fullTags.charAt(i) == '.') {
+                result.add(s.toString());
+                s = new StringBuilder("");
+            } else {
+                s.append(fullTags.charAt(i));
+            }
+
+        }
+        if(s.toString()!="")
+            result.add(s.toString());
+        return result;
+    }
+
     private boolean saveNote(){
 
         String title = mTitleEditText.getText().toString();
@@ -143,19 +173,23 @@ public class NotePlainEditorFragment extends Fragment {
             mTagsEditText.setError("Tags are required");
             return false;
         }
+        List<String> brokeTags = breakTags(tags);
+        System.out.println("DEBUG: " + brokeTags.toString());
 
         if(mCurrentNote != null){
             mCurrentNote.setContent(content);
             mCurrentNote.setTitle(title);
-            mCurrentNote.setTags(tags);
             NoteManager.newInstance(getActivity()).update(mCurrentNote);
+            TagManager.newInstance(getActivity()).addTags(brokeTags, mCurrentNote.getId());
         }else {
             Note note = new Note();
             note.setTitle(title);
             note.setContent(content);
-            note.setTags(tags);
-            NoteManager.newInstance(getActivity()).create(note);
+            Long note_id = NoteManager.newInstance(getActivity()).create(note);
+            // ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
+            TagManager.newInstance(getActivity()).addTags(breakTags(tags), note_id);
         }
+        System.out.println("TAGS" + TagManager.newInstance(getActivity()).getAllTagsString());
         return true;
     }
 
@@ -165,6 +199,8 @@ public class NotePlainEditorFragment extends Fragment {
             long id = args.getLong("id", 0);
             if (id > 0){
                 mCurrentNote = NoteManager.newInstance(getActivity()).getNote(id);
+                //TagsList = TagManager.newInstance(getActivity()).getAllTagsString();
+                TagsList = mCurrentNote.getNoteTags(getActivity());
             }
         }
     }
