@@ -92,7 +92,19 @@ public class Note {
         return tagsList;
     }
 
-
+    public List<Long> getTagsIds(Context context){
+        List<Tag> mTags = TagManager.newInstance(context).getAllTags();
+        List<Rel> mRels = RelManager.newInstance(context).getAllRels();
+        List<Long> tagsList = new ArrayList<>();
+        Long tag_id;
+        for (int i=0; i<mRels.size(); i++) {
+            if(mRels.get(i).getNoteId()==this.id){
+                tag_id = mRels.get(i).getTagId();
+                tagsList.add(tag_id);
+            }
+        }
+        return tagsList;
+    }
 
 /*
     public void setTags(String tag) {

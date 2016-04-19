@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.example.android.blocodenotas.models.Note;
 import com.example.android.blocodenotas.models.Tag;
 
 import com.example.android.blocodenotas.utility.Constag;
@@ -79,6 +80,7 @@ public class TagManager {
 
     public void addTags(List<String> tags, Long note_id){
         List<Long> tagsIdsList = new ArrayList<>();
+        List<Long> oldTagsList = NoteManager.newInstance(mContext).getNote(note_id).getTagsIds(mContext);
         for(int i=0; i<tags.size(); i++){
             Long tag_id = exist(tags.get(i));
             if (tag_id==null){
@@ -86,9 +88,15 @@ public class TagManager {
             }
             tagsIdsList.add(tag_id);
         }
-
-        for (int i=0; i<tags.size(); i++) {
-            create(tags.get(i).getTag());
+        List<Long> newTagsList = tagsIdsList;
+        for (int i=0; i<tagsIdsList.size(); i++) {
+            if (oldTagsList.contains(tagsIdsList.get(i))){
+                oldTagsList.remove(tagsIdsList.get(i));
+                newTagsList.remove(tagsIdsList.get(i));
+            }
+        }
+        for(int i=0; i<oldTagsList.size(); i++) {
+            RelManager.newInstance(mContext).delete(note_id, oldTagsList.get(i));
         }
     }
 

@@ -7,6 +7,7 @@ import android.net.Uri;
 
 import com.example.android.blocodenotas.models.Rel;
 import com.example.android.blocodenotas.models.Tag;
+import com.example.android.blocodenotas.utility.Constag;
 import com.example.android.blocodenotas.utility.Constrel;
 
 import java.util.ArrayList;
@@ -96,8 +97,23 @@ public class RelManager {
         }
     }
 
-    public void delete(Rel tag){
-        mContext.getContentResolver().delete(NoteContentProvider.CONTENT_URI_REL,Constrel.COLUMN_ID + "=" + tag.getId(), null);
+    public void delete(Long note_id, Long tag_id){
+        //Long del_id = exist(note_id,tag_id);
+        mContext.getContentResolver().delete(   NoteContentProvider.CONTENT_URI_REL,
+                                                Constrel.COLUMN_NOTE + "=" + note_id + " AND " + Constrel.COLUMN_TAG + "=" + tag_id,
+                                                null);
     }
 
+
+    /*public Long exist(Long note_id, Long tag_id){
+        //ContentValues values = new ContentValues();
+        String[] projection = {Constag.COLUMN_ID};
+        //values.put(Constag.COLUMN_NAME,name);
+        Cursor result = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_TAG, projection, name, null, null);
+        if (result!=null){
+            result.moveToFirst();
+            return result.getLong(result.getColumnIndex(Constag.COLUMN_ID));
+        }
+        return null;
+    }*/
 }
