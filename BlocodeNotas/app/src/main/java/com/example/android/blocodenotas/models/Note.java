@@ -29,7 +29,7 @@ public class Note {
     private Calendar dateModified;
 
     public String getReadableModifiedDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yy - hh:mm ", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy - HH:mm ", Locale.getDefault());
         sdf.setTimeZone(getDataModified().getTimeZone());
         Date modifiedDate = getDataModified().getTime();
         String displayDate = sdf.format(modifiedDate);
