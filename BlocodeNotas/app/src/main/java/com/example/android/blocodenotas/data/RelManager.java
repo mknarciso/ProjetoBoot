@@ -53,6 +53,12 @@ public class RelManager {
         return rels;
     }
 
+    //Adicionar aqui dentro a busca pela query
+    public List<Rel> getAllRels(String querySearch){
+        List<Rel> rels = new ArrayList<Rel>();
+        return rels;
+    }
+
     public List<Rel> getNoteRels(long note_id){
         List<Rel> mCurrentNoteRels, rels = new ArrayList<Rel>();
         mCurrentNoteRels = getAllRels();

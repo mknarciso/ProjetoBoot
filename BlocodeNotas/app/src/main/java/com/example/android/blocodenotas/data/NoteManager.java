@@ -4,11 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import com.example.android.blocodenotas.models.Note;
-import com.example.android.blocodenotas.models.Rel;
-import com.example.android.blocodenotas.models.Tag;
 import com.example.android.blocodenotas.utility.Constants;
 
 import java.util.ArrayList;
@@ -64,6 +61,12 @@ public class NoteManager {
             cursor.close();
         }
         return notes;
+    }
+
+    //Adicionar aqui dentro a busca pela query
+    public List<Note> getAllNotes(String querySearch,int typeSort){
+        List<Note> note = new ArrayList<Note>();
+        return note;
     }
 
     public Note getNote(Long id){
