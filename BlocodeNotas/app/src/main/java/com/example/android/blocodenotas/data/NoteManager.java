@@ -123,7 +123,9 @@ public class NoteManager {
         mContext.getContentResolver().delete(NoteContentProvider.CONTENT_URI_NOTE, Constants.COLUMN_ID + "=" + note.getId(), null);
     }
 
-    public void generate_PDF(){
+    public void export(){
+
+
 
 
     }

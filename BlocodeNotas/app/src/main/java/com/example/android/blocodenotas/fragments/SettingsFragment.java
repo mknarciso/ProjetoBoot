@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.android.blocodenotas.R;
+import com.example.android.blocodenotas.data.NoteManager;
 
 /**
  * Created by Adauto on 28/03/2016.
@@ -59,6 +60,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         buttonExport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
+                NoteManager.newInstance(getActivity()).export();
                 makeToast("Exported");
             }
         });
