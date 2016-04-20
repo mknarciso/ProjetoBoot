@@ -111,9 +111,9 @@ public class NoteListSearchFragment extends Fragment {
         });
 
         //ZZZZZZZ - AQUI!!!
-        mNotes = NoteManager.newInstance(getActivity()).getAllNotes(query,NoteListFragment.typeSort);
-        mTags = TagManager.newInstance(getActivity()).getAllTags(query);
-        mRels = RelManager.newInstance(getActivity()).getAllRels(query);
+        mNotes = NoteManager.newInstance(getActivity()).getAllNotesByTag(query,NoteListFragment.typeSort);
+        mTags = TagManager.newInstance(getActivity()).getAllTags();
+        mRels = RelManager.newInstance(getActivity()).getAllRels();
         mAdapter = new NoteListAdapter(mNotes, mTags, mRels, getActivity());
         mRecyclerView.setAdapter(mAdapter);
     }
