@@ -25,7 +25,7 @@ public class SettingsActivity extends AppCompatActivity{
 
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //remove this line in the MainActivity.java
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
             Bundle args = getIntent().getExtras();

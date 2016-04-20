@@ -60,8 +60,18 @@ public class NoteListSearchFragment extends Fragment {
         return mRootView;
     }
 
+    public static NoteListSearchFragment newInstance(long id) {
+        NoteListSearchFragment fragment = new NoteListSearchFragment();
+        if (id > 0) {
+            Bundle bundle = new Bundle();
+            bundle.putLong("id", id);
+            fragment.setArguments(bundle);
+        }
+        return fragment;
+    }
+
     private void setupList() {
-        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.note_recycler_view);
+        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.note_search_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -107,21 +117,5 @@ public class NoteListSearchFragment extends Fragment {
         mAdapter = new NoteListAdapter(mNotes, mTags, mRels, getActivity());
         mRecyclerView.setAdapter(mAdapter);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
