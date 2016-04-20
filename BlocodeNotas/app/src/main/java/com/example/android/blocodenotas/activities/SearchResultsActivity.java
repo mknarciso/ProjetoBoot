@@ -47,10 +47,9 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     }
 
-    @Override
     public void onBackPressed()
     {
-            finish();
+        moveTaskToBack(true);
     }
 
 }
