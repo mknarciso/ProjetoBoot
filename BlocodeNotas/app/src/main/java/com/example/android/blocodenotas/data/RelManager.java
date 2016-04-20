@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.example.android.blocodenotas.models.Note;
 import com.example.android.blocodenotas.models.Rel;
 import com.example.android.blocodenotas.utility.Constrel;
 
@@ -51,6 +52,26 @@ public class RelManager {
             cursor.close();
         }
         return rels;
+    }
+
+    public List<Long> getNotesFromTag(Long tag_id){
+        List<Rel> rels = new ArrayList<Rel>();
+        List<Long> note_ids = new ArrayList<>();
+        Cursor cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_REL, Constrel.COLUMNS,
+                                                            Constrel.COLUMN_TAG + "='" + tag_id + "'",
+                                                            null, null);
+        if(cursor != null){
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                rels.add(Rel.getRelFromCursor(cursor));
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        for (int i=0; i<rels.size();i++){
+            note_ids.add(rels.get(i).getNoteId());
+        }
+        return note_ids;
     }
 
     public List<Rel> getNoteRels(long note_id){

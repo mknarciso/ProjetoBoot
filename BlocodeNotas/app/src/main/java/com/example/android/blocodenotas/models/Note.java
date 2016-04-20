@@ -112,6 +112,8 @@ public class Note {
         return tagsList;
     }
 
+
+
     public String getContent() {
         return content;
     }

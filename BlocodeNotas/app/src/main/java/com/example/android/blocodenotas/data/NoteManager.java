@@ -10,6 +10,7 @@ import com.example.android.blocodenotas.models.Note;
 import com.example.android.blocodenotas.models.Rel;
 import com.example.android.blocodenotas.models.Tag;
 import com.example.android.blocodenotas.utility.Constants;
+import com.example.android.blocodenotas.utility.Constrel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,26 @@ public class NoteManager {
                 cursor.moveToNext();
             }
             cursor.close();
+        }
+        return notes;
+    }
+
+    public List<Note> getAllNotesByTag(String tag){
+        List<Note> notes = new ArrayList<Note>();
+        Long tag_id = TagManager.newInstance(mContext).exist(tag);
+        List<Long> note_ids = RelManager.newInstance(mContext).getNotesFromTag(tag_id);
+        for(int i=0; i<note_ids.size();i++) {
+            Cursor cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_NOTE, Constants.COLUMNS,
+                    Constants.COLUMN_ID + "='" + note_ids.get(i) + "'",
+                    null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    notes.add((Note.getNotefromCursor(cursor)));
+                    cursor.moveToNext();
+                }
+                cursor.close();
+            }
         }
         return notes;
     }
