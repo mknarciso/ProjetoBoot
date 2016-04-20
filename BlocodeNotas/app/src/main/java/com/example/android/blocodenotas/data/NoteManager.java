@@ -64,14 +64,20 @@ public class NoteManager {
         return notes;
     }
 
-    public List<Note> getAllNotesByTag(String tag) {
+    public List<Note> getAllNotesByTag(String tag, int typeSort) {
         List<Note> notes = new ArrayList<Note>();
         Long tag_id = TagManager.newInstance(mContext).exist(tag);
         List<Long> note_ids = RelManager.newInstance(mContext).getNotesFromTag(tag_id);
+        String order;
+        if (typeSort == 1) {order = Constants.COLUMN_CREATED_TIME;}
+        else if (typeSort == 2){order = Constants.COLUMN_MODIFIED_TIME;}
+        else{ order = Constants.COLUMN_TITLE;}
+
+
         for (int i = 0; i < note_ids.size(); i++) {
             Cursor cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_NOTE, Constants.COLUMNS,
                     Constants.COLUMN_ID + "='" + note_ids.get(i) + "'",
-                    null, null);
+                    null, order);
             if (cursor != null) {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
