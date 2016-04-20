@@ -4,11 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import com.example.android.blocodenotas.models.Note;
-import com.example.android.blocodenotas.models.Rel;
-import com.example.android.blocodenotas.models.Tag;
 import com.example.android.blocodenotas.utility.Constants;
 import com.example.android.blocodenotas.utility.Constrel;
 
@@ -67,11 +64,11 @@ public class NoteManager {
         return notes;
     }
 
-    public List<Note> getAllNotesByTag(String tag){
+    public List<Note> getAllNotesByTag(String tag) {
         List<Note> notes = new ArrayList<Note>();
         Long tag_id = TagManager.newInstance(mContext).exist(tag);
         List<Long> note_ids = RelManager.newInstance(mContext).getNotesFromTag(tag_id);
-        for(int i=0; i<note_ids.size();i++) {
+        for (int i = 0; i < note_ids.size(); i++) {
             Cursor cursor = mContext.getContentResolver().query(NoteContentProvider.CONTENT_URI_NOTE, Constants.COLUMNS,
                     Constants.COLUMN_ID + "='" + note_ids.get(i) + "'",
                     null, null);
@@ -86,6 +83,12 @@ public class NoteManager {
         }
         return notes;
     }
+    /*
+    //Adicionar aqui dentro a busca pela query
+    public List<Note> getAllNotes(String querySearch,int typeSort){
+        List<Note> note = new ArrayList<Note>();
+        return note;
+    }*/
 
     public Note getNote(Long id){
         Note note;
